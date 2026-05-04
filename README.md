@@ -4284,3 +4284,3007 @@ flask
 ```
 
 ---
+
+## Part VII: Object-Oriented Programming
+
+Object-Oriented Programming (OOP) is a programming paradigm that organizes code around **objects**—self-contained entities that bundle data and behavior together. Python is a multi-paradigm language, and its OOP support is both powerful and pragmatic. This section takes you from class basics to advanced patterns, showing not just the syntax but the _why_ behind each concept.
+
+### OOP: The Big Picture
+
+Before diving into Python syntax, let's understand OOP as a design philosophy. At its heart, OOP models real-world entities as objects that have:
+
+- **Attributes (State):** Data that describes the object (e.g., a car's color, speed, fuel level).
+- **Methods (Behavior):** Functions that define what the object can do (e.g., accelerate, brake, refuel).
+- **Identity:** Each object is a unique instance, even if it has the same attributes as another.
+
+```mermaid
+graph TD
+    subgraph "Object-Oriented Thinking"
+        A[Class: Blueprint/Template] --> B[Instance: Concrete Object]
+        C[Attributes: What it HAS] --> B
+        D[Methods: What it DOES] --> B
+    end
+
+    subgraph "Example: Car"
+        E[Car Class] --> F[my_car: Car Instance]
+        G[Attributes:<br>color='red'<br>speed=0<br>fuel=100] --> F
+        H[Methods:<br>accelerate()<br>brake()<br>refuel()] --> F
+    end
+```
+
+**Why Use OOP?**
+
+- **Encapsulation:** Bundle related data and behavior together, hiding internal complexity.
+- **Reusability:** Create classes once, instantiate them many times. Extend through inheritance.
+- **Maintainability:** Well-designed objects are modular, testable, and easier to change.
+- **Modeling Reality:** Maps naturally to how we think about the world—as interacting objects.
+
+---
+
+### What is OOP?
+
+Object-Oriented Programming is built on four fundamental pillars:
+
+| Pillar            | Definition                                                              | Python Implementation                                       |
+| :---------------- | :---------------------------------------------------------------------- | :---------------------------------------------------------- |
+| **Encapsulation** | Bundling data and methods; restricting direct access to internal state  | Naming conventions (`_protected`, `__private`), `@property` |
+| **Inheritance**   | Creating new classes from existing ones; reusing and extending behavior | `class Child(Parent):` syntax, `super()`                    |
+| **Polymorphism**  | Different classes responding to the same interface in their own way     | Duck typing, method overriding, ABCs                        |
+| **Abstraction**   | Hiding complex implementation details; exposing only essential features | Abstract Base Classes, clean public APIs                    |
+
+> 📖 For the official language reference on classes, see: [Python Classes Documentation](https://docs.python.org/3/tutorial/classes.html)
+
+---
+
+### Class Coding Basics
+
+A **class** is a blueprint for creating objects. It defines the attributes and methods that its instances will have.
+
+**Basic Syntax:**
+
+```python
+class ClassName:
+    """Docstring describing the class."""
+
+    # Class body: attributes and methods
+    pass
+```
+
+**Key Rules:**
+
+- Class names follow `PascalCase` (CapWords) convention.
+- The class body is indented.
+- A docstring immediately after the class header is good practice.
+
+---
+
+### Classes and Instances
+
+Let's start with the simplest possible example to understand the distinction between a class and its instances.
+
+- **Class:** The template or blueprint (`Dog`).
+- **Instance:** A specific object created from that template (`my_dog`, `your_dog`).
+
+```python
+from typing import Any
+
+class Dog:
+    """A simple representation of a dog."""
+
+    # A class attribute (shared by all instances)
+    species: str = "Canis familiaris"
+
+    def bark(self) -> str:
+        """All dogs can bark."""
+        return "Woof!"
+
+# Creating instances (instantiation)
+my_dog: Dog = Dog()
+your_dog: Dog = Dog()
+
+# Each instance is a distinct object
+print(f"Are they the same object? {my_dog is your_dog}")  # Output: False
+print(f"Same type? {type(my_dog) is type(your_dog)}")     # Output: True
+
+# Accessing methods
+print(my_dog.bark())    # Output: Woof!
+print(your_dog.bark())  # Output: Woof!
+
+# Accessing class attribute (shared)
+print(my_dog.species)   # Output: Canis familiaris
+```
+
+**What is `self`?**
+`self` refers to the **specific instance** on which a method is called. When you write `my_dog.bark()`, Python internally translates this to `Dog.bark(my_dog)`. The `self` parameter receives the instance automatically.
+
+```mermaid
+sequenceDiagram
+    participant Code as "my_dog.bark()"
+    participant Python as "Python Runtime"
+    Code->>Python: Call bark() on my_dog
+    Python->>Python: Look up Dog.bark
+    Python->>Python: Pass my_dog as 'self'
+    Python->>Python: Execute bark logic
+    Python-->>Code: Return result
+```
+
+---
+
+### Constructor & Instance Attributes
+
+The `__init__` method is the **constructor** (more precisely, the initializer). It runs automatically when a new instance is created and sets up the instance's initial state.
+
+**Instance attributes** are data specific to each object, defined inside `__init__` using `self.attribute_name`.
+
+```python
+from typing import List, Optional
+
+class Student:
+    """Represents a student with a name, ID, and courses."""
+
+    def __init__(self, name: str, student_id: int) -> None:
+        """
+        Initialize a new Student instance.
+
+        Args:
+            name: The student's full name.
+            student_id: The unique student identifier.
+        """
+        # Instance attributes: unique to each student
+        self.name: str = name
+        self.student_id: int = student_id
+        self.courses: List[str] = []  # Start with an empty course list
+        self.gpa: Optional[float] = None
+
+    def enroll(self, course: str) -> None:
+        """Enroll the student in a course."""
+        self.courses.append(course)
+        print(f"{self.name} enrolled in {course}.")
+
+    def describe(self) -> str:
+        """Return a description of the student."""
+        course_count: int = len(self.courses)
+        return f"Student {self.name} (ID: {self.student_id}) is taking {course_count} course(s)."
+
+# Creating instances with different data
+alice: Student = Student("Alice Johnson", 1001)
+bob: Student = Student("Bob Smith", 1002)
+
+# Each instance has its own attributes
+alice.enroll("Python Programming")
+alice.enroll("Data Structures")
+bob.enroll("Calculus")
+
+print(alice.describe())
+# Output: Student Alice Johnson (ID: 1001) is taking 2 course(s).
+print(bob.describe())
+# Output: Student Bob Smith (ID: 1002) is taking 1 course(s).
+```
+
+---
+
+### Class Attributes
+
+**Class attributes** are variables shared across _all_ instances of a class. They are defined directly in the class body, outside any method.
+
+- **Use them for:** Constants, default values, shared counters, or configuration that applies to all instances.
+- **Access them via:** `ClassName.attribute` or `self.attribute`.
+- ⚠️ **Pitfall:** Modifying a class attribute through `self` creates an instance attribute that _shadows_ the class attribute.
+
+```python
+from typing import List
+
+class BankAccount:
+    """Represents a bank account."""
+
+    # Class attributes
+    bank_name: str = "PyBank International"
+    interest_rate: float = 0.05  # 5%
+    total_accounts: int = 0      # Shared counter
+
+    def __init__(self, owner: str, initial_balance: float = 0.0) -> None:
+        self.owner: str = owner
+        self.balance: float = initial_balance
+        # Increment the shared counter
+        BankAccount.total_accounts += 1
+
+    @classmethod
+    def get_bank_info(cls) -> str:
+        """Class method: returns bank information."""
+        return f"Welcome to {cls.bank_name}. Current rate: {cls.interest_rate * 100}%"
+
+# Accessing class attributes
+print(BankAccount.bank_name)  # Output: PyBank International
+
+# Creating accounts increments the shared counter
+acc1: BankAccount = BankAccount("Alice", 1000.0)
+acc2: BankAccount = BankAccount("Bob", 500.0)
+
+print(f"Total accounts opened: {BankAccount.total_accounts}")  # Output: 2
+print(BankAccount.get_bank_info())
+```
+
+---
+
+### A More Realistic Example
+
+Let's bring these concepts together with a more substantial example—a simple e-commerce system.
+
+```python
+from typing import List, Dict, Optional
+from datetime import datetime
+
+class Product:
+    """Represents a product in the store."""
+
+    def __init__(self, name: str, price: float, sku: str) -> None:
+        self.name: str = name
+        self.price: float = price
+        self.sku: str = sku  # Stock Keeping Unit
+
+    def __str__(self) -> str:
+        return f"{self.name} (${self.price:.2f})"
+
+class ShoppingCart:
+    """Represents a shopping cart containing products."""
+
+    max_items: int = 50  # Class attribute: cart limit
+
+    def __init__(self, customer_name: str) -> None:
+        self.customer_name: str = customer_name
+        self.items: Dict[str, int] = {}  # sku -> quantity
+        self.created_at: datetime = datetime.now()
+
+    def add_item(self, product: Product, quantity: int = 1) -> bool:
+        """Add a product to the cart. Returns False if cart is full."""
+        current_total: int = sum(self.items.values())
+        if current_total + quantity > self.max_items:
+            print(f"Cannot add {quantity} items. Cart limit is {self.max_items}.")
+            return False
+
+        self.items[product.sku] = self.items.get(product.sku, 0) + quantity
+        print(f"Added {quantity}x {product.name} to cart.")
+        return True
+
+    def total_items(self) -> int:
+        """Return the total number of items in the cart."""
+        return sum(self.items.values())
+
+    def summary(self) -> str:
+        return f"{self.customer_name}'s cart: {self.total_items()} items"
+
+# Using the classes
+laptop: Product = Product("Laptop Pro", 1299.99, "LP-001")
+mouse: Product = Product("Wireless Mouse", 49.99, "WM-002")
+
+cart: ShoppingCart = ShoppingCart("Alice")
+cart.add_item(laptop)
+cart.add_item(mouse, 2)
+
+print(cart.summary())
+# Output:
+# Added 1x Laptop Pro to cart.
+# Added 2x Wireless Mouse to cart.
+# Alice's cart: 3 items
+```
+
+---
+
+### Class Coding Details
+
+Let's formalize the terminology and structure of Python classes.
+
+```python
+class MyClass(ParentClass):
+    """
+    Docstring: What this class represents.
+    """
+
+    # Class attributes (shared by all instances)
+    class_attr: str = "shared value"
+
+    def __init__(self, param1: int, param2: str) -> None:
+        """
+        Initializer/Constructor.
+        Sets up instance attributes.
+        """
+        self.param1: int = param1      # Public instance attribute
+        self._param2: str = param2     # Protected (convention)
+        self.__secret: bool = False    # Private (name mangled)
+
+    def instance_method(self) -> str:
+        """Regular method: receives self (the instance)."""
+        return f"param1 is {self.param1}"
+
+    @classmethod
+    def class_method(cls) -> str:
+        """Class method: receives cls (the class)."""
+        return f"Class attribute: {cls.class_attr}"
+
+    @staticmethod
+    def static_method(value: int) -> int:
+        """Static method: no automatic self or cls."""
+        return value * 2
+```
+
+| Term                   | Definition                             | Access Via                 |
+| :--------------------- | :------------------------------------- | :------------------------- |
+| **Class**              | A blueprint for creating objects       | `MyClass`                  |
+| **Instance**           | A concrete object created from a class | `obj = MyClass(1, "a")`    |
+| **Instance Attribute** | Data unique to each instance           | `self.name` inside methods |
+| **Class Attribute**    | Data shared across all instances       | `MyClass.class_attr`       |
+| **Instance Method**    | Behavior tied to an instance           | `obj.method()`             |
+| **Class Method**       | Behavior tied to the class             | `MyClass.class_method()`   |
+| **Static Method**      | Utility function in class namespace    | `MyClass.static_method()`  |
+
+---
+
+### Instance vs Class vs Static Methods
+
+Understanding when to use each method type is crucial for clean class design.
+
+| Method Type  | First Parameter       | When to Use                                                          | Decorator       |
+| :----------- | :-------------------- | :------------------------------------------------------------------- | :-------------- |
+| **Instance** | `self` (the instance) | Needs access to instance data                                        | (default)       |
+| **Class**    | `cls` (the class)     | Needs access to class data; alternative constructors                 | `@classmethod`  |
+| **Static**   | Nothing automatic     | Utility function related to the class; no instance/class data needed | `@staticmethod` |
+
+```python
+from typing import List
+from datetime import date
+
+class Person:
+    """Demonstrates all three method types."""
+
+    species: str = "Homo sapiens"  # Class attribute
+
+    def __init__(self, name: str, birth_year: int) -> None:
+        self.name: str = name
+        self.birth_year: int = birth_year
+
+    # ── Instance Method ──
+    def calculate_age(self) -> int:
+        """Uses instance data (birth_year)."""
+        return date.today().year - self.birth_year
+
+    # ── Class Method ──
+    @classmethod
+    def get_species(cls) -> str:
+        """Uses class data (species)."""
+        return cls.species
+
+    @classmethod
+    def from_birth_date_string(cls, info: str) -> "Person":
+        """
+        Alternative constructor.
+        Parses a string like 'Alice-1990' into a Person.
+        """
+        name, year_str = info.split("-")
+        return cls(name, int(year_str))
+
+    # ── Static Method ──
+    @staticmethod
+    def is_adult_age(age: int) -> bool:
+        """Utility function: no self or cls needed."""
+        return age >= 18
+
+# Using each method type
+person: Person = Person("Alice", 1990)
+
+# Instance method
+print(f"Age: {person.calculate_age()}")  # Output: Age: 34 (varies by current year)
+
+# Class method
+print(f"Species: {Person.get_species()}")  # Output: Species: Homo sapiens
+
+# Class method as alternative constructor
+bob: Person = Person.from_birth_date_string("Bob-1985")
+print(f"Bob's birth year: {bob.birth_year}")  # Output: Bob's birth year: 1985
+
+# Static method
+print(f"Is 20 an adult age? {Person.is_adult_age(20)}")  # Output: True
+```
+
+---
+
+### Special Methods (Dunder Methods)
+
+**Special methods** (also called "dunder" methods because of **d**ouble **under**scores) allow your classes to integrate with Python's built-in behaviors. When you define `__str__`, `__len__`, `__eq__`, etc., your objects can be printed, compared, iterated over, and more—just like built-in types.
+
+```python
+from typing import List, Any
+
+class Book:
+    """A book with special method implementations."""
+
+    def __init__(self, title: str, author: str, pages: int, rating: float = 0.0) -> None:
+        self.title: str = title
+        self.author: str = author
+        self.pages: int = pages
+        self.rating: float = rating
+
+    # ── String Representation ──
+    def __str__(self) -> str:
+        """User-friendly string: used by print() and str()."""
+        return f"'{self.title}' by {self.author}"
+
+    def __repr__(self) -> str:
+        """Developer-friendly string: used in debugger, repr()."""
+        return f"Book(title='{self.title}', author='{self.author}', pages={self.pages})"
+
+    # ── Length ──
+    def __len__(self) -> int:
+        """Makes len(book) work."""
+        return self.pages
+
+    # ── Comparison ──
+    def __eq__(self, other: object) -> bool:
+        """Equality: book == other_book."""
+        if not isinstance(other, Book):
+            return NotImplemented
+        return (self.title == other.title and
+                self.author == other.author)
+
+    def __lt__(self, other: "Book") -> bool:
+        """Less than: book < other_book (by rating)."""
+        return self.rating < other.rating
+
+    # ── Container-like ──
+    def __contains__(self, keyword: str) -> bool:
+        """Supports: 'keyword' in book."""
+        return keyword.lower() in self.title.lower()
+
+# Using special methods
+book1: Book = Book("Python Crash Course", "Eric Matthes", 544, 4.7)
+book2: Book = Book("Automate the Boring Stuff", "Al Sweigart", 592, 4.5)
+book3: Book = Book("Python Crash Course", "Eric Matthes", 544, 4.7)
+
+# __str__ and __repr__
+print(book1)          # Output: 'Python Crash Course' by Eric Matthes
+print(repr(book1))    # Output: Book(title='Python Crash Course', author='Eric Matthes', pages=544)
+
+# __len__
+print(f"Pages: {len(book1)}")  # Output: Pages: 544
+
+# __eq__ and __lt__
+print(f"Same content? {book1 == book3}")   # Output: True
+print(f"book1 < book2? {book1 < book2}")   # Output: False (4.7 > 4.5)
+
+# __contains__
+print(f"'Crash' in book1? {'Crash' in book1}")  # Output: True
+```
+
+---
+
+### Operator Overloading
+
+Operator overloading is a special case of special methods. By implementing specific dunder methods, you can define how operators like `+`, `-`, `*`, `[]`, and `()` behave with your custom objects.
+
+| Operator    | Dunder Method                   | Example          |
+| :---------- | :------------------------------ | :--------------- |
+| `+`         | `__add__(self, other)`          | `a + b`          |
+| `-`         | `__sub__(self, other)`          | `a - b`          |
+| `*`         | `__mul__(self, other)`          | `a * b`          |
+| `/`         | `__truediv__(self, other)`      | `a / b`          |
+| `[]` (get)  | `__getitem__(self, key)`        | `a[key]`         |
+| `[]` (set)  | `__setitem__(self, key, value)` | `a[key] = value` |
+| `()`        | `__call__(self, *args)`         | `a()`            |
+| `+` (right) | `__radd__(self, other)`         | `5 + a`          |
+
+```python
+from typing import List, Union
+
+class Vector:
+    """A 2D vector with operator overloading."""
+
+    def __init__(self, x: float, y: float) -> None:
+        self.x: float = x
+        self.y: float = y
+
+    def __repr__(self) -> str:
+        return f"Vector({self.x}, {self.y})"
+
+    # ── Arithmetic Operators ──
+    def __add__(self, other: "Vector") -> "Vector":
+        """Vector addition: v1 + v2."""
+        return Vector(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other: "Vector") -> "Vector":
+        """Vector subtraction: v1 - v2."""
+        return Vector(self.x - other.x, self.y - other.y)
+
+    def __mul__(self, scalar: float) -> "Vector":
+        """Scalar multiplication: v * 3."""
+        return Vector(self.x * scalar, self.y * scalar)
+
+    # Right multiplication for commutativity: 3 * v
+    def __rmul__(self, scalar: float) -> "Vector":
+        return self.__mul__(scalar)
+
+    # ── Container-like ──
+    def __getitem__(self, index: int) -> float:
+        """Access coordinates by index: v[0], v[1]."""
+        if index == 0:
+            return self.x
+        elif index == 1:
+            return self.y
+        raise IndexError("Vector index out of range (0 or 1 only)")
+
+    # ── Callable ──
+    def __call__(self) -> float:
+        """Calling the vector returns its magnitude."""
+        return (self.x ** 2 + self.y ** 2) ** 0.5
+
+# Using overloaded operators
+v1: Vector = Vector(3, 4)
+v2: Vector = Vector(1, 2)
+
+print(f"v1 + v2 = {v1 + v2}")     # Output: Vector(4, 6)
+print(f"v1 - v2 = {v1 - v2}")     # Output: Vector(2, 2)
+print(f"v1 * 2 = {v1 * 2}")       # Output: Vector(6, 8)
+print(f"2 * v1 = {2 * v1}")       # Output: Vector(6, 8)  (via __rmul__)
+print(f"v1[0] = {v1[0]}")         # Output: v1[0] = 3.0
+print(f"Magnitude of v1: {v1()}") # Output: 5.0
+```
+
+---
+
+### Private & Public Attributes
+
+Python doesn't have true "private" attributes like Java or C++. Instead, it relies on **convention** and a lightweight mechanism called **name mangling**.
+
+| Convention    | Syntax        | Meaning                                | Accessibility                 |
+| :------------ | :------------ | :------------------------------------- | :---------------------------- |
+| **Public**    | `self.name`   | Part of the public API                 | Accessible everywhere         |
+| **Protected** | `self._name`  | Internal use; "touch at your own risk" | Accessible but discouraged    |
+| **Private**   | `self.__name` | Name-mangled to `_ClassName__name`     | Harder to access accidentally |
+
+```python
+class Employee:
+    """Demonstrates access levels."""
+
+    def __init__(self, name: str, salary: float) -> None:
+        self.name: str = name            # Public
+        self._department: str = "General" # Protected (convention)
+        self.__salary: float = salary    # Private (name mangled)
+
+    def get_salary(self) -> float:
+        """Public method to access private attribute."""
+        return self.__salary
+
+    def _internal_calculation(self) -> float:
+        """Protected method: for internal/subclass use."""
+        return self.__salary * 0.1
+
+# Usage
+emp: Employee = Employee("Alice", 75000.0)
+
+# Public: Access freely
+print(emp.name)  # Output: Alice
+
+# Protected: Accessible but warned against
+print(emp._department)  # Works, but IDE gives a warning
+
+# Private: Name mangled but still accessible if you know how
+# print(emp.__salary)           # ❌ AttributeError
+# print(emp._Employee__salary)  # ⚠️ Works but DON'T do this!
+print(emp.get_salary())         # ✅ Proper way: use public method
+```
+
+---
+
+### Properties vs Attributes
+
+**Properties** allow you to attach getter, setter, and deleter logic to what _looks_ like a simple attribute access. They let you start with simple attributes and add validation or computed behavior later without changing the public API.
+
+```python
+class Temperature:
+    """Temperature with validated property."""
+
+    def __init__(self, celsius: float) -> None:
+        self._celsius: float = celsius  # Internal storage
+
+    # ── Property: celsius ──
+    @property
+    def celsius(self) -> float:
+        """Get the temperature in Celsius."""
+        print("Getting celsius...")
+        return self._celsius
+
+    @celsius.setter
+    def celsius(self, value: float) -> None:
+        """Set Celsius with validation."""
+        if value < -273.15:
+            raise ValueError("Temperature cannot be below absolute zero (-273.15°C)")
+        print(f"Setting celsius to {value}")
+        self._celsius = value
+
+    # ── Computed Property: fahrenheit ──
+    @property
+    def fahrenheit(self) -> float:
+        """Get Fahrenheit (computed, no storage needed)."""
+        return (self._celsius * 9/5) + 32
+
+    @fahrenheit.setter
+    def fahrenheit(self, value: float) -> None:
+        """Set using Fahrenheit (converts to Celsius)."""
+        self.celsius = (value - 32) * 5/9  # Uses the validated celsius setter!
+
+# Using properties (looks like simple attribute access)
+temp: Temperature = Temperature(25)
+print(f"Celsius: {temp.celsius}°C")        # Output: Getting celsius... \n Celsius: 25°C
+print(f"Fahrenheit: {temp.fahrenheit}°F")  # Output: Fahrenheit: 77.0°F
+
+temp.celsius = 30  # Uses setter with validation
+print(f"Updated: {temp.celsius}°C")        # Output: Setting celsius to 30 \n Updated: 30°C
+
+# temp.celsius = -500  # ❌ ValueError: Temperature cannot be below absolute zero
+```
+
+---
+
+### Designing with Classes
+
+Good OOP design isn't just about syntax—it's about creating clear, maintainable structures. Here are key principles:
+
+```mermaid
+graph TD
+    subgraph "SOLID Principles (Summarized for Python)"
+        S[Single Responsibility<br>One class, one job]
+        O[Open/Closed<br>Open for extension, closed for modification]
+        L[Liskov Substitution<br>Subclass must be substitutable for base]
+        I[Interface Segregation<br>Keep interfaces focused and small]
+        D[Dependency Inversion<br>Depend on abstractions, not concretions]
+    end
+```
+
+**Practical Design Tips:**
+
+- Keep classes focused on a single responsibility.
+- Prefer composition over inheritance where it makes sense.
+- Use properties to maintain a clean public API.
+- Write docstrings for classes and public methods.
+- Follow naming conventions (`PascalCase` for classes, `snake_case` for methods/attributes).
+
+---
+
+### Inheritance
+
+**Inheritance** allows a class to inherit attributes and methods from a parent (base) class, promoting code reuse and establishing hierarchical relationships.
+
+```python
+from typing import List, Optional
+
+# ── Base Class ──
+class Animal:
+    """Base class for all animals."""
+
+    def __init__(self, name: str, age: int) -> None:
+        self.name: str = name
+        self.age: int = age
+        self._hunger_level: int = 50
+
+    def eat(self, food_amount: int = 10) -> None:
+        """Reduce hunger by eating."""
+        self._hunger_level = max(0, self._hunger_level - food_amount)
+        print(f"{self.name} ate. Hunger: {self._hunger_level}")
+
+    def make_sound(self) -> str:
+        """Generic sound (to be overridden)."""
+        return "Some generic animal sound"
+
+# ── Derived Classes ──
+class Dog(Animal):
+    """Dog class, inherits from Animal."""
+
+    def __init__(self, name: str, age: int, breed: str) -> None:
+        super().__init__(name, age)  # Call parent constructor
+        self.breed: str = breed      # Dog-specific attribute
+
+    def make_sound(self) -> str:
+        """Override the parent method."""
+        return "Woof!"
+
+    def fetch(self) -> str:
+        """Dog-specific method."""
+        return f"{self.name} fetches the ball!"
+
+class Cat(Animal):
+    """Cat class, inherits from Animal."""
+
+    def __init__(self, name: str, age: int, indoor_only: bool = True) -> None:
+        super().__init__(name, age)
+        self.indoor_only: bool = indoor_only
+
+    def make_sound(self) -> str:
+        return "Meow!"
+
+# Using inheritance
+dog: Dog = Dog("Buddy", 3, "Golden Retriever")
+cat: Cat = Cat("Whiskers", 2)
+
+# Inherited method
+dog.eat(20)  # Output: Buddy ate. Hunger: 30
+
+# Overridden method
+print(f"Dog says: {dog.make_sound()}")  # Output: Dog says: Woof!
+print(f"Cat says: {cat.make_sound()}")  # Output: Cat says: Meow!
+
+# Dog-specific method
+print(dog.fetch())  # Output: Buddy fetches the ball!
+
+# isinstance checks
+print(f"Dog is Animal? {isinstance(dog, Animal)}")  # True
+print(f"Cat is Dog? {isinstance(cat, Dog)}")        # False
+```
+
+---
+
+### super() and MRO
+
+`super()` lets you call methods on a parent class without explicitly naming it. It works with the **Method Resolution Order (MRO)**—the order in which Python searches for methods in a class hierarchy.
+
+```mermaid
+graph TD
+    subgraph "MRO for D(B, C) with A as Base"
+        D --> B
+        D --> C
+        B --> A
+        C --> A
+    end
+    subgraph "Search Order (D -> B -> C -> A -> object)"
+        O1[D] --> O2[B] --> O3[C] --> O4[A] --> O5[object]
+    end
+```
+
+```python
+class A:
+    def method(self) -> str:
+        return "A.method"
+
+class B(A):
+    def method(self) -> str:
+        return f"B.method -> {super().method()}"
+
+class C(A):
+    def method(self) -> str:
+        return f"C.method -> {super().method()}"
+
+class D(B, C):
+    def method(self) -> str:
+        return f"D.method -> {super().method()}"
+
+# Check the MRO
+print(f"MRO of D: {[cls.__name__ for cls in D.__mro__]}")
+# Output: ['D', 'B', 'C', 'A', 'object']
+
+d: D = D()
+print(d.method())
+# Output: D.method -> B.method -> C.method -> A.method
+```
+
+---
+
+### Composition vs Inheritance
+
+Both patterns let you reuse code, but they serve different purposes. The general guideline: **"Composition over Inheritance."**
+
+| Pattern         | Relationship | When to Use                        |
+| :-------------- | :----------- | :--------------------------------- |
+| **Inheritance** | "IS-A"       | Clear hierarchical relationship    |
+| **Composition** | "HAS-A"      | Using another class as a component |
+
+```python
+from typing import List
+
+# ── Composition Example: Car HAS-A Engine ──
+class Engine:
+    """An engine component."""
+
+    def __init__(self, horsepower: int, fuel_type: str) -> None:
+        self.horsepower: int = horsepower
+        self.fuel_type: str = fuel_type
+        self.is_running: bool = False
+
+    def start(self) -> str:
+        self.is_running = True
+        return "Engine started."
+
+    def stop(self) -> str:
+        self.is_running = False
+        return "Engine stopped."
+
+class Car:
+    """A car COMPOSED OF an engine (composition)."""
+
+    def __init__(self, make: str, model: str, engine: Engine) -> None:
+        self.make: str = make
+        self.model: str = model
+        self.engine: Engine = engine  # Composition: Car HAS-A Engine
+
+    def start(self) -> str:
+        return f"{self.make} {self.model}: {self.engine.start()}"
+
+    def stop(self) -> str:
+        return f"{self.make} {self.model}: {self.engine.stop()}"
+
+# The Engine can exist independently or be reused
+v8_engine: Engine = Engine(400, "petrol")
+electric_motor: Engine = Engine(300, "electric")
+
+sports_car: Car = Car("Ferrari", "F8", v8_engine)
+electric_car: Car = Car("Tesla", "Model 3", electric_motor)
+
+print(sports_car.start())   # Output: Ferrari F8: Engine started.
+print(electric_car.start()) # Output: Tesla Model 3: Engine started.
+```
+
+---
+
+### Abstract Base Classes (ABC)
+
+**Abstract Base Classes** define an **interface**—a contract that subclasses must fulfill. They can't be instantiated directly. Use them when you want to enforce that subclasses implement specific methods.
+
+```python
+from abc import ABC, abstractmethod
+import math
+from typing import List
+
+class Shape(ABC):
+    """Abstract base class for all shapes."""
+
+    @abstractmethod
+    def area(self) -> float:
+        """Calculate the area. MUST be implemented by subclasses."""
+        pass
+
+    @abstractmethod
+    def perimeter(self) -> float:
+        """Calculate the perimeter. MUST be implemented by subclasses."""
+        pass
+
+    def describe(self) -> str:
+        """Concrete method: works for all shapes."""
+        return f"Shape with area={self.area():.2f}, perimeter={self.perimeter():.2f}"
+
+class Circle(Shape):
+    """Concrete implementation of Shape."""
+
+    def __init__(self, radius: float) -> None:
+        self.radius: float = radius
+
+    def area(self) -> float:
+        return math.pi * self.radius ** 2
+
+    def perimeter(self) -> float:
+        return 2 * math.pi * self.radius
+
+class Rectangle(Shape):
+    """Concrete implementation of Shape."""
+
+    def __init__(self, width: float, height: float) -> None:
+        self.width: float = width
+        self.height: float = height
+
+    def area(self) -> float:
+        return self.width * self.height
+
+    def perimeter(self) -> float:
+        return 2 * (self.width + self.height)
+
+# ❌ Cannot instantiate abstract class:
+# shape = Shape()  # TypeError: Can't instantiate abstract class Shape
+
+# ✅ Concrete classes work:
+circle: Circle = Circle(5)
+rect: Rectangle = Rectangle(4, 6)
+
+print(circle.describe())
+print(rect.describe())
+
+# ✅ Abstract class as type hint:
+def print_shape_info(shapes: List[Shape]) -> None:
+    for shape in shapes:
+        print(f"  {shape.describe()}")
+
+print_shape_info([circle, rect])
+```
+
+---
+
+### Dataclasses
+
+Introduced in Python 3.7, `dataclasses` provide a decorator and functions for automatically adding special methods like `__init__`, `__repr__`, and `__eq__` to classes. They're perfect for classes that primarily hold data.
+
+```python
+from dataclasses import dataclass, field
+from typing import List
+
+@dataclass
+class Point:
+    """A 2D point dataclass."""
+    x: float
+    y: float
+
+    def distance_from_origin(self) -> float:
+        """Custom method alongside auto-generated ones."""
+        return (self.x ** 2 + self.y ** 2) ** 0.5
+
+@dataclass
+class Student:
+    """Student dataclass with defaults and mutable fields."""
+    name: str
+    age: int
+    grades: List[float] = field(default_factory=list)  # Mutable default
+    active: bool = True
+
+    @property
+    def average_grade(self) -> float:
+        """Computed property from grades."""
+        if not self.grades:
+            return 0.0
+        return sum(self.grades) / len(self.grades)
+
+# Auto-generated __init__
+p1: Point = Point(3, 4)
+p2: Point = Point(3, 4)
+
+# Auto-generated __repr__
+print(p1)  # Output: Point(x=3, y=4)
+
+# Auto-generated __eq__
+print(f"p1 == p2? {p1 == p2}")  # Output: True
+
+# Custom method
+print(f"Distance: {p1.distance_from_origin()}")  # Output: 5.0
+
+# Student with mutable default (each instance gets its OWN list)
+s1: Student = Student("Alice", 20, [85, 92, 78])
+s2: Student = Student("Bob", 22)  # Empty list from default_factory
+
+s1.grades.append(95)
+print(f"Alice's grades: {s1.grades}")  # [85, 92, 78, 95]
+print(f"Bob's grades: {s2.grades}")    # [] (separate list!)
+```
+
+> 📖 More details: [Python Dataclasses Documentation](https://docs.python.org/3/library/dataclasses.html)
+
+---
+
+### Encapsulation and Polymorphism
+
+These two pillars of OOP work beautifully together in Python.
+
+**Encapsulation** hides internal implementation details and exposes a clean public API. In Python, this is achieved through conventions (`_protected`, `__private`) and properties.
+
+**Polymorphism** lets different classes be treated uniformly through a common interface. Python achieves this through **duck typing** ("if it walks like a duck and quacks like a duck, it's a duck") and abstract base classes.
+
+```python
+from typing import List
+
+# ── Polymorphism Example ──
+class EmailNotifier:
+    def send(self, message: str, recipient: str) -> str:
+        return f"📧 Email to {recipient}: {message}"
+
+class SMSNotifier:
+    def send(self, message: str, recipient: str) -> str:
+        return f"📱 SMS to {recipient}: {message}"
+
+class PushNotifier:
+    def send(self, message: str, recipient: str) -> str:
+        return f"🔔 Push to {recipient}: {message}"
+
+# Polymorphic function: works with ANY object that has a .send() method
+def send_notification(notifier, message: str, recipient: str) -> str:
+    """
+    Send a notification using any notifier.
+    Polymorphism: we don't care about the type, just the interface.
+    """
+    return notifier.send(message, recipient)
+
+# All notifiers work the same way
+email: EmailNotifier = EmailNotifier()
+sms: SMSNotifier = SMSNotifier()
+push: PushNotifier = PushNotifier()
+
+print(send_notification(email, "Hello!", "alice@example.com"))
+print(send_notification(sms, "Hello!", "+1234567890"))
+print(send_notification(push, "Hello!", "device_123"))
+```
+
+---
+
+### Advanced Class Topics
+
+Here's a quick tour of more advanced OOP features available in Python.
+
+**1. `__slots__` for Memory Optimization**
+`__slots__` restricts the attributes an instance can have, reducing memory overhead when you create millions of instances.
+
+```python
+class RegularPoint:
+    def __init__(self, x: float, y: float) -> None:
+        self.x = x
+        self.y = y
+
+class SlottedPoint:
+    __slots__ = ['x', 'y']  # No __dict__, saves memory
+
+    def __init__(self, x: float, y: float) -> None:
+        self.x = x
+        self.y = y
+
+# SlottedPoint uses ~45% less memory (significant at scale)
+# But you can't dynamically add attributes:
+p: SlottedPoint = SlottedPoint(1, 2)
+# p.z = 3  # ❌ AttributeError: 'SlottedPoint' object has no attribute 'z'
+```
+
+**2. Metaclasses (Classes that Create Classes)**
+Metaclasses are the "classes of classes." They control how classes are created. Most developers never need them directly.
+
+```python
+# A simple metaclass example
+class SingletonMeta(type):
+    """Metaclass that implements the Singleton pattern."""
+    _instances: dict = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Database(metaclass=SingletonMeta):
+    """A database connection that can only have one instance."""
+    def __init__(self, connection_string: str = "default") -> None:
+        self.connection_string: str = connection_string
+
+# Both variables point to the SAME instance
+db1: Database = Database("postgres://...")
+db2: Database = Database("mysql://...")
+
+print(f"Same instance? {db1 is db2}")                # Output: True
+print(f"Connection: {db1.connection_string}")         # Still "postgres://..."
+```
+
+**3. `__new__` vs `__init__`**
+
+- `__new__` is a static method that **creates** the instance (called first).
+- `__init__` **initializes** the created instance (called second).
+
+```python
+class UpperCaseName:
+    """Class that transforms names to uppercase using __new__."""
+
+    def __new__(cls, name: str, *args, **kwargs):
+        """Create the instance (runs before __init__)."""
+        instance = super().__new__(cls)
+        instance._original_name = name
+        return instance
+
+    def __init__(self, name: str) -> None:
+        # __new__ already processed the name
+        self.name: str = name.upper()
+
+    @property
+    def original_name(self) -> str:
+        return self._original_name
+
+obj: UpperCaseName = UpperCaseName("hello")
+print(f"Name: {obj.name}")           # Output: Name: HELLO
+print(f"Original: {obj.original_name}")  # Output: Original: hello
+```
+
+---
+
+I have the information from both the `learn-go` repository (for style and structure) and the official Python documentation. I can now create Part VIII for you.
+
+Based on my analysis of the `learn-go` repository, the style to replicate is:
+
+- **Direct and concise:** Explanations get straight to the point.
+- **Code-focused:** Every concept is immediately demonstrated with a code snippet, followed by its output.
+- **Incremental:** Simple examples are built upon step-by-step.
+- **Conversational:** The tone is friendly and accessible, like a tutor guiding you.
+- **Well-structured:** Clear headings and short, focused sections.
+
+Here is Part VIII, written following that `learn-go` style and structure.
+
+---
+
+## Part VIII: Error Handling & Debugging
+
+In this part, we will learn how to make our Python programs more robust by handling errors gracefully and how to find and fix bugs effectively. Let's start by understanding what exceptions are.
+
+### Exception Basics
+
+An exception is an event that occurs during the execution of a program that disrupts the normal flow of instructions. Instead of crashing, we can write code to handle these events.
+
+Think of it like a safety net for your code.
+
+```python
+# A simple example of an exception: division by zero
+# numerator = 10
+# denominator = 0
+# result = numerator / denominator  # This will raise a ZeroDivisionError
+```
+
+We handle exceptions using `try` and `except` blocks.
+
+```python
+try:
+    # Code that might cause an error
+    result = 10 / 0
+except ZeroDivisionError:
+    # Code to run if a ZeroDivisionError occurs
+    print("Error: You can't divide by zero!")
+```
+
+### Understanding Error Types
+
+In Python, errors can be broadly classified into three main types.
+
+- **Syntax Errors**: Mistakes in the language's grammar.
+- **Runtime Errors (Exceptions)**: Errors that occur during program execution.
+- **Logical Errors**: The program runs without crashing but produces an incorrect result.
+
+#### Syntax Errors
+
+Syntax errors occur when the parser detects a grammatically incorrect statement. The program will not run at all.
+
+```python
+# Example of a syntax error: missing colon
+# if True
+#     print("Hello")  # SyntaxError: expected ':'
+
+# Another example: mismatched brackets
+# print("Hello"  # SyntaxError: unexpected EOF while parsing
+```
+
+#### Runtime Errors (Exceptions)
+
+These errors pop up while your program is running, even if the syntax is perfect. They happen due to various reasons like invalid input, missing files, or issues with resources.
+
+Here are a few common examples:
+
+```python
+# NameError: Trying to use a variable that hasn't been defined
+# print(unknown_variable)  # NameError: name 'unknown_variable' is not defined
+
+# TypeError: Performing an operation on incompatible types
+# result = "5" + 5  # TypeError: can only concatenate str (not "int") to str
+
+# ValueError: A function gets an argument with the right type but an inappropriate value
+# number = int("hello")  # ValueError: invalid literal for int() with base 10: 'hello'
+
+# IndexError: Trying to access an index that doesn't exist in a list
+# my_list = [1, 2, 3]
+# item = my_list[5]  # IndexError: list index out of range
+
+# KeyError: Trying to access a dictionary key that doesn't exist
+# my_dict = {"name": "Go"}
+# value = my_dict["age"]  # KeyError: 'age'
+
+# FileNotFoundError: Trying to open a file that doesn't exist
+# with open("nonexistent_file.txt", "r") as f:
+#     content = f.read()  # FileNotFoundError: [Errno 2] No such file or directory
+```
+
+#### Logical Errors
+
+Logical errors are the trickiest because the code runs without any errors but produces a wrong output. The problem is in your logic or algorithm.
+
+```python
+# A function to calculate the average of a list
+def calculate_average(numbers):
+    # Logical error: We're returning the sum, not the average
+    total = 0
+    for num in numbers:
+        total += num
+    return total # Should be: return total / len(numbers)
+
+# This runs fine but gives the wrong answer
+print(f"Result: {calculate_average([10, 20, 30])}")  # Output: 60 (Expected: 20)
+```
+
+### Finding Errors with the Debugger
+
+A debugger is a tool that lets you pause your program, inspect variables, and step through code line by line. It's much more powerful than using `print()` statements.
+
+Python has a built-in debugger called `pdb`, but you'll often use the visual debugger built into your IDE (like VS Code).
+
+**A simple `pdb` example:**
+
+```python
+import pdb
+
+def buggy_function(a, b):
+    result = a / b
+    pdb.set_trace()  # The program will pause here
+    return result
+
+# buggy_function(10, 2)
+```
+
+When the code hits `pdb.set_trace()`, you'll get an interactive prompt where you can type:
+
+- `p a` (print the value of `a`)
+- `n` (go to the next line)
+- `c` (continue execution)
+- `q` (quit)
+
+> 📖 For more on the built-in debugger, see the official [pdb documentation](https://docs.python.org/3/library/pdb.html).
+
+### Exception Coding Details
+
+Now, let's go deeper into the structure of exception handling.
+
+#### try, except, else, finally
+
+The full exception handling flow can be seen with `try`, `except`, `else`, and `finally`.
+
+```python
+def process_file(filename):
+    try:
+        f = open(filename, "r")  # Try to open the file
+    except FileNotFoundError:
+        print(f"Error: The file '{filename}' was not found.")
+    else:
+        # Runs ONLY if no exception occurred in the try block
+        content = f.read()
+        print(f"File content: {content}")
+        f.close()
+    finally:
+        # Runs ALWAYS, regardless of whether an exception occurred
+        print("Finished file processing attempt.")
+
+# process_file("my_file.txt")
+# process_file("nonexistent.txt")
+```
+
+#### Handling Multiple Exceptions
+
+You can handle different exceptions in different ways by having multiple `except` blocks.
+
+```python
+try:
+    # Some code that might raise different errors
+    value = int(input("Enter an integer: "))  # Could raise ValueError
+    result = 10 / value                       # Could raise ZeroDivisionError
+except ValueError:
+    print("That's not a valid integer!")
+except ZeroDivisionError:
+    print("You can't divide by zero!")
+except Exception as e:
+    # A catch-all for any other kind of exception
+    print(f"An unexpected error occurred: {e}")
+```
+
+#### The Exception Hierarchy
+
+All built-in exceptions in Python are organized in a class hierarchy. `BaseException` is at the top, but user-defined exceptions and all built-in runtime errors inherit from `Exception`.
+
+A simplified view looks like this:
+
+```mermaid
+graph TD
+    BaseException --> SystemExit;
+    BaseException --> KeyboardInterrupt;
+    BaseException --> GeneratorExit;
+    BaseException --> Exception;
+
+    Exception --> ArithmeticError;
+    ArithmeticError --> ZeroDivisionError;
+    ArithmeticError --> OverflowError;
+
+    Exception --> LookupError;
+    LookupError --> IndexError;
+    LookupError --> KeyError;
+
+    Exception --> OSError;
+    OSError --> FileNotFoundError;
+    OSError --> PermissionError;
+
+    Exception --> ValueError;
+    Exception --> TypeError;
+    Exception --> ImportError;
+```
+
+> 📖 You can explore the full hierarchy in the official Python [exception hierarchy docs](https://docs.python.org/3/library/exceptions.html#exception-hierarchy).
+
+#### Exception Objects
+
+When an exception is raised, an exception object is created. You can capture and inspect this object in an `except` block.
+
+```python
+try:
+    result = 10 / 0
+except ZeroDivisionError as e:
+    print(f"Caught an exception: {e}")
+    print(f"Type of exception: {type(e).__name__}")
+```
+
+#### Creating Custom Exceptions
+
+You can create your own exception types by subclassing from Python's `Exception` class. This is useful for raising errors that are specific to your application.
+
+```python
+class InvalidWithdrawalError(Exception):
+    """Custom exception for invalid bank withdrawals."""
+    def __init__(self, balance, amount):
+        self.balance = balance
+        self.amount = amount
+        super().__init__(f"Withdrawal of {amount} denied. Current balance is {balance}.")
+
+def withdraw(balance, amount):
+    if amount > balance:
+        raise InvalidWithdrawalError(balance, amount)
+    return balance - amount
+
+# try:
+#     new_balance = withdraw(100, 200)
+# except InvalidWithdrawalError as e:
+#     print(e)
+```
+
+### Raising Exceptions
+
+You can manually raise an exception using the `raise` keyword. This is often used to signal that a certain condition in your program logic has been violated.
+
+```python
+def set_age(age):
+    if age < 0:
+        raise ValueError("Age cannot be negative.")
+    print(f"Age set to {age}")
+
+# set_age(-5)  # Will raise a ValueError
+```
+
+You can also re-raise an exception after catching it, perhaps to log the error and let a higher-level handler deal with it.
+
+```python
+try:
+    result = 10 / 0
+except ZeroDivisionError:
+    print("Logging the division by zero error...")
+    raise  # Re-raises the same ZeroDivisionError
+```
+
+### Designing with Exceptions
+
+A common Pythonic design principle is **EAFP (Easier to Ask for Forgiveness than Permission)**. Instead of checking if an operation will succeed, you just attempt it and handle an exception if it fails. This contrasts with **LBYL (Look Before You Leap)**.
+
+**EAFP (Pythonic way):**
+
+```python
+def get_value_from_dict(my_dict, key):
+    try:
+        return my_dict[key]
+    except KeyError:
+        return None
+
+# data = {"name": "Go"}
+# print(get_value_from_dict(data, "name"))
+# print(get_value_from_dict(data, "age"))
+```
+
+**LBYL (Less Pythonic):**
+
+```python
+def get_value_from_dict_lbyl(my_dict, key):
+    if key in my_dict:
+        return my_dict[key]
+    else:
+        return None
+```
+
+### Assertions
+
+An assertion is a sanity check that you can turn on or off when you are done testing your program. It uses the `assert` keyword. If the condition is `False`, it raises an `AssertionError`.
+
+```python
+def apply_discount(price, discount):
+    final_price = price - discount
+    # Let's assert that the final price should never be negative
+    assert final_price >= 0, "Final price cannot be negative."
+    return final_price
+
+print(apply_discount(100, 20))
+# print(apply_discount(100, 150))  # This will raise an AssertionError
+```
+
+Assertions are mainly for debugging and catching "impossible" conditions. Don't use them for handling expected runtime errors (like a missing file), as they can be globally disabled with the `-O` (optimize) flag.
+
+### Logging for Debugging
+
+The `logging` module is a powerful, structured way to track events in your application. It's far more flexible than scattering `print()` calls. You can set different severity levels for your messages.
+
+```python
+import logging
+
+# Configure the logging format and level
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def perform_calculation(x, y):
+    logging.debug(f"Starting calculation with x={x}, y={y}")
+    if y == 0:
+        logging.error("Division by zero attempted!")
+        return None
+    else:
+        result = x / y
+        logging.info(f"Calculation successful. Result: {result}")
+        return result
+
+perform_calculation(10, 5)
+perform_calculation(5, 0)
+```
+
+The output will look something like this:
+
+```
+YYYY-MM-DD HH:MM:SS,SSS - DEBUG - Starting calculation with x=10, y=5
+YYYY-MM-DD HH:MM:SS,SSS - INFO - Calculation successful. Result: 2.0
+YYYY-MM-DD HH:MM:SS,SSS - DEBUG - Starting calculation with x=5, y=0
+YYYY-MM-DD HH:MM:SS,SSS - ERROR - Division by zero attempted!
+```
+
+### Common Debugging Techniques
+
+Here are a few practical strategies for when you're stuck on a bug.
+
+1.  **Explain Your Code:** The "rubber duck" technique. Go line by line, explaining to an inanimate object exactly what your code should be doing. You'll often find the flaw in the process.
+2.  **Simplify and Isolate:** If you have a complex function that's failing, try to write the smallest possible test case that reproduces the bug. Temporarily comment out other parts of your code.
+3.  **Use a `breakpoint()`:** As discussed, stepping through your code with a debugger is the most direct way to see what's happening.
+4.  **Inspect State:** Don't just guess what's in a variable. Use a debugger or a well-placed `print()` to be certain. For complex data structures, `from pprint import pprint; pprint(my_data)` makes output readable.
+
+### Which Errors Should You Handle?
+
+A key principle is to only handle exceptions you can meaningfully recover from. Catching every possible error silently can hide serious bugs.
+
+- **✅ Do handle:**
+  - `FileNotFoundError`: You might want to prompt for a new file.
+  - `ValueError` / `TypeError` on user input: You can ask the user again.
+  - Network errors like `ConnectionError`: You can implement a retry mechanism.
+
+- **❌ Don't handle (usually):**
+  - `IndexError` or `KeyError` in your own internal logic: This is often a bug in your algorithm that should be fixed, not silenced.
+  - `SyntaxError`: Fix the code!
+  - Errors where a clean recovery is impossible and it's safer to let the program crash and notify a developer.
+
+_This is it for error handling and debugging. Writing code that fails gracefully and having the skills to fix it when it doesn't is what separates a confident programmer from a beginner._
+
+## Part VIII: Error Handling & Debugging
+
+No matter how skilled you become, errors are an inevitable part of programming. The mark of a professional developer isn't writing bug-free code—it's knowing how to anticipate, handle, and diagnose problems gracefully. This section covers Python's exception system, debugging strategies, and best practices for building resilient applications.
+
+### Exception Basics
+
+Let's start with a fundamental distinction that many tutorials gloss over.
+
+**What is an Exception?**
+An exception is an **event that disrupts the normal flow of a program**. When Python encounters a situation it can't handle, it _raises_ (throws) an exception. If unhandled, the program crashes with a traceback showing exactly where the error occurred and the call stack that led to it.
+
+**Why Use Exception Handling?**
+
+- **Graceful Degradation:** Instead of crashing, your program can display a friendly message, log the error for later analysis, or try an alternative approach.
+- **Resource Cleanup:** Ensure files are closed, database connections are released, or temporary data is cleaned up, even when things go wrong.
+- **Separation of Concerns:** Keep error-handling logic separate from your main business logic, making both cleaner and easier to maintain.
+
+```mermaid
+graph LR
+    subgraph "Without Exception Handling"
+        A[Start] --> B[Read File];
+        B -- File doesn't exist --> C[💥 Crash with Traceback];
+    end
+    subgraph "With Exception Handling"
+        D[Start] --> E[try: Read File];
+        E -- File doesn't exist --> F[except FileNotFoundError];
+        F --> G[Log error, show friendly message];
+        G --> H[Continue gracefully];
+    end
+```
+
+> 📖 For the official tutorial on errors and exceptions, see: [Python Errors and Exceptions Documentation](https://docs.python.org/3/tutorial/errors.html)
+
+---
+
+### Understanding Error Types
+
+Before diving into exception handling, you need to recognize the three broad categories of errors you'll encounter in Python.
+
+```mermaid
+graph TD
+    Errors[Python Errors] --> Syntax[Syntax Errors<br>Parsing errors];
+    Errors --> Runtime[Runtime Errors<br>Exceptions];
+    Errors --> Logical[Logical Errors<br>Bugs in logic];
+
+    Syntax --> S1["print('Hello'  # Missing parenthesis"];
+    Runtime --> R1["x = 10 / 0  # ZeroDivisionError"];
+    Runtime --> R2["open('missing.txt')  # FileNotFoundError"];
+    Logical --> L1["Using + instead of * in calculation"];
+    Logical --> L2["Off-by-one error in loop"];
+```
+
+| Error Type        | When It Occurs                         | Python's Response           | Can It Be Handled?   |
+| :---------------- | :------------------------------------- | :-------------------------- | :------------------- |
+| **Syntax Error**  | Parsing/compilation (before execution) | Immediate `SyntaxError`     | No—fix the code      |
+| **Runtime Error** | During execution                       | Raises an `Exception`       | Yes—use `try/except` |
+| **Logical Error** | During execution (silently)            | No exception; wrong results | No—use debugging     |
+
+---
+
+### Syntax Errors
+
+Syntax errors (also called parsing errors) occur when Python can't understand your code at all. They are caught before the program starts running. These are the easiest errors to fix because Python points directly at the problem with a caret (`^`).
+
+```python
+from typing import List
+
+# ❌ Syntax Error Examples (commented out to keep this file runnable)
+
+# 1. Missing colon after if/else/for/while/def/class
+# if True
+#     print("Hello")  # SyntaxError: expected ':'
+
+# 2. Unclosed string literal
+# message = "Hello, World!  # SyntaxError: unterminated string literal
+
+# 3. Mismatched parentheses, brackets, or braces
+# result = (10 + 5) * 3)  # SyntaxError: unmatched ')'
+
+# 4. Invalid assignment target
+# 5 = x  # SyntaxError: cannot assign to literal
+
+# 5. Using a reserved keyword as a variable name
+# class = "Math"  # SyntaxError: invalid syntax
+
+# 6. Incorrect indentation
+# def foo():
+# print("Bad indent")  # IndentationError: expected an indented block
+```
+
+**How to Read Syntax Error Messages:**
+
+```
+File "example.py", line 3
+    if True
+           ^
+SyntaxError: expected ':'
+```
+
+- **File:** Which file has the error.
+- **Line:** The line number where Python got confused (check the line _above_ too!).
+- **Caret (`^`):** Points to the exact position Python detected the problem.
+- **Message:** Describes what Python expected but didn't find.
+
+💡 **Tip:** Modern IDEs (VS Code, PyCharm) and linters (`pylint`, `flake8`, `ruff`) catch most syntax errors in real-time with red squiggly underlines, before you even run the code.
+
+---
+
+### Runtime Errors (Exceptions)
+
+Runtime errors occur while your program is executing. Python's exception system is designed to handle these. Here are the most common built-in exceptions you'll encounter daily:
+
+```python
+from typing import List, Dict, Any
+
+# ── NameError: Referencing a variable that doesn't exist ──
+# print(undefined_variable)  # ❌ NameError: name 'undefined_variable' is not defined
+
+# ── TypeError: Operation on incompatible types ──
+# result = "hello" + 5  # ❌ TypeError: can only concatenate str (not "int") to str
+
+# ── ValueError: Correct type, but inappropriate value ──
+# number = int("hello")  # ❌ ValueError: invalid literal for int() with base 10
+
+# ── ZeroDivisionError: Division by zero ──
+# result = 10 / 0  # ❌ ZeroDivisionError: division by zero
+
+# ── IndexError: Accessing a sequence with an out-of-range index ──
+my_list: List[int] = [1, 2, 3]
+# print(my_list[5])  # ❌ IndexError: list index out of range
+
+# ── KeyError: Accessing a non-existent dictionary key ──
+my_dict: Dict[str, int] = {"a": 1, "b": 2}
+# print(my_dict["c"])  # ❌ KeyError: 'c'
+
+# ── AttributeError: Accessing a non-existent attribute or method ──
+text: str = "hello"
+# text.append("!")  # ❌ AttributeError: 'str' object has no attribute 'append'
+
+# ── FileNotFoundError: Trying to open a file that doesn't exist ──
+# with open("nonexistent.txt") as f:  # ❌ FileNotFoundError: [Errno 2] No such file
+#     content = f.read()
+
+# ── ImportError / ModuleNotFoundError: Importing a non-existent module ──
+# import nonexistent_module  # ❌ ModuleNotFoundError: No module named 'nonexistent_module'
+```
+
+Every exception produces a **traceback** (also called a stack trace), showing the sequence of function calls that led to the error:
+
+```python
+# Example traceback:
+# Traceback (most recent call last):
+#   File "main.py", line 10, in <module>
+#     result = process(data)
+#   File "main.py", line 5, in process
+#     return data / divisor
+# ZeroDivisionError: division by zero
+```
+
+---
+
+### Logical Errors
+
+Logical errors are the **hardest to debug** because the code runs without any exceptions—it just produces wrong results. There's no error message to guide you. These require careful reasoning, testing, and debugging.
+
+```python
+from typing import List
+
+# ❌ LOGICAL ERROR: A function with a flawed algorithm
+def calculate_average_wrong(numbers: List[float]) -> float:
+    """
+    🐛 Bug: Returns the SUM instead of the AVERAGE.
+    The developer forgot to divide by the count!
+    """
+    total: float = 0.0
+    for num in numbers:
+        total += num
+    return total  # ❌ Should be: return total / len(numbers)
+
+# ✅ Corrected version
+def calculate_average_correct(numbers: List[float]) -> float:
+    """Calculate the arithmetic mean of a list of numbers."""
+    if not numbers:
+        return 0.0  # Guard against empty list
+    return sum(numbers) / len(numbers)
+
+# The buggy function runs without error but gives completely wrong results
+data: List[float] = [10.0, 20.0, 30.0]
+print(f"Wrong: {calculate_average_wrong(data)}")    # Output: 60.0 (wrong!)
+print(f"Correct: {calculate_average_correct(data)}")  # Output: 20.0 (right!)
+
+# ── Common Logical Errors ──
+# 1. Off-by-one errors (fencepost errors)
+def get_indices_wrong(length: int) -> List[int]:
+    """🐛 Bug: Should be range(length), not range(length - 1)."""
+    return list(range(length - 1))  # ❌ Misses the last element
+
+# 2. Confusing assignment (=) with equality (==)
+def is_admin_wrong(role: str) -> bool:
+    """🐛 Bug: Assignment instead of comparison."""
+    if role = "admin":  # This would actually be a SyntaxError in Python!
+        return True
+    return False
+
+# 3. Mutable default arguments (covered in Part V)
+# 4. Integer division when float is needed (Python 3 does float division with /)
+# 5. Modifying a list while iterating over it
+```
+
+**Strategies for Finding Logical Errors:**
+
+- **Rubber Duck Debugging:** Explain your code line-by-line to someone (or an inanimate object). The act of verbalizing often reveals the flaw.
+- **Strategic Print Statements:** Add `print()` calls to inspect variable values at key decision points.
+- **Unit Tests:** Write tests that assert expected outputs for given inputs. Run them frequently.
+- **Debugger:** Step through code line-by-line, inspecting state at each step.
+
+---
+
+### Finding Errors with the Debugger
+
+The Python debugger (`pdb`) lets you pause execution at any point, inspect all variables, and step through code one line at a time. Modern IDEs provide a visual interface that's much easier to use than the command-line debugger.
+
+**Using VS Code Debugger (Recommended):**
+
+1.  **Set a breakpoint:** Click in the left margin next to a line number. A red dot appears.
+2.  **Start debugging:** Press `F5` or click the "Run and Debug" icon (▶️ with a bug) → select "Python File".
+3.  **Debugging controls appear at the top:**
+    - **Continue (F5):** Resume execution until the next breakpoint.
+    - **Step Over (F10):** Execute the current line; don't step into function calls.
+    - **Step Into (F11):** Enter into the function being called on the current line.
+    - **Step Out (Shift+F11):** Finish the current function and return to the caller.
+    - **Restart (Ctrl+Shift+F5):** Restart the debugging session from the beginning.
+    - **Stop (Shift+F5):** End the debugging session.
+4.  **Inspect variables:** The "Variables" pane shows all local and global variables. Hover over any variable in the editor to see its current value. The "Watch" pane lets you track specific expressions.
+
+**Using `pdb` from the Command Line (For remote/terminal debugging):**
+
+```python
+from typing import List
+
+def process_data(items: List[int]) -> int:
+    """Example function to demonstrate pdb debugging."""
+    total: int = 0
+
+    # Method 1: Programmatic breakpoint (Python 3.7+)
+    breakpoint()  # Execution pauses here; equivalent to: import pdb; pdb.set_trace()
+
+    for i, item in enumerate(items):
+        processed: int = item * 2 if item > 0 else item
+        total += processed
+        # You can inspect 'i', 'item', 'processed', 'total' in pdb
+
+    return total
+
+# Common pdb commands:
+#   n (next)          - Execute the next line
+#   s (step)          - Step into a function call
+#   c (continue)      - Continue until next breakpoint
+#   p variable        - Print the value of a variable
+#   pp expression     - Pretty-print an expression
+#   l (list)          - Show source code around current line
+#   w (where)         - Show the full call stack
+#   u / d (up/down)   - Move up/down the call stack
+#   q (quit)          - Quit the debugger
+#   h (help)          - Show all available commands
+```
+
+---
+
+### Exception Coding Details
+
+Now let's dive into the mechanics of handling exceptions in Python with the complete syntax.
+
+#### try, except, else, finally
+
+The complete exception handling structure has four clauses. Only `try` and at least one `except` (or `finally`) are required; `else` is optional.
+
+```mermaid
+graph TD
+    A[try block<br>Code that may fail] --> B{Exception occurred?};
+    B -- No --> C[else block<br>Runs on success only];
+    B -- Yes --> D{Matches any except?};
+    D -- Yes --> E[except block<br>Handle the error];
+    D -- No --> F[Exception propagates<br>up the call stack];
+    C --> G[finally block<br>ALWAYS runs for cleanup];
+    E --> G;
+    F --> H[💥 Unhandled exception];
+    G --> I[Continue execution<br>after try/except block];
+```
+
+```python
+from typing import Optional
+
+def safe_division(a: float, b: float) -> Optional[float]:
+    """
+    Demonstrates try/except/else/finally with full structure.
+
+    Divides a by b, handling various error cases.
+    Each block has a distinct, important purpose.
+    """
+    print(f"\nAttempting to divide {a} by {b}...")
+
+    try:
+        # Code that might raise an exception
+        result: float = a / b
+    except ZeroDivisionError as e:
+        # Runs ONLY if ZeroDivisionError occurred
+        print(f"  ❌ Math Error: Cannot divide by zero! ({e})")
+        return None
+    except TypeError as e:
+        # Runs ONLY if TypeError occurred (e.g., passing a string)
+        print(f"  ❌ Type Error: Invalid operand types! ({e})")
+        return None
+    else:
+        # Runs ONLY if NO exception occurred in the try block
+        # Use this for code that should only run on success
+        print(f"  ✅ Division successful!")
+        return result
+    finally:
+        # Runs ALWAYS—even if we returned in except or else!
+        # Use this for cleanup: closing files, releasing locks, etc.
+        print(f"  🧹 Cleanup: Division attempt finished.")
+
+# Test the function
+result1: Optional[float] = safe_division(10, 2)   # Successful case
+result2: Optional[float] = safe_division(10, 0)   # ZeroDivisionError case
+
+print(f"\nResult 1: {result1}")  # Output: 5.0
+print(f"Result 2: {result2}")    # Output: None
+```
+
+| Clause    | When It Runs                                          | Primary Purpose                                                    |
+| :-------- | :---------------------------------------------------- | :----------------------------------------------------------------- |
+| `try`     | Always runs first                                     | Contains the code that might raise an exception                    |
+| `except`  | When a matching exception occurs                      | Handle the specific error                                          |
+| `else`    | When **no** exception occurred                        | Code that depends on successful execution; keeps `try` block clean |
+| `finally` | **Always** (even after `return`, `break`, `continue`) | Resource cleanup: close files, release locks, disconnect           |
+
+---
+
+### Handling Multiple Exceptions
+
+Real-world code often needs to handle different exceptions in different ways. Python lets you specify multiple `except` clauses, which are evaluated **in order from top to bottom**. The first matching clause wins.
+
+```python
+from typing import Union
+
+def process_user_input(value: str) -> Union[int, float, str]:
+    """
+    Process user input that could represent different number types.
+    Demonstrates multiple except clauses, ordered from specific to general.
+    """
+    try:
+        # Try to convert to float first (handles both int and float strings)
+        number: float = float(value)
+
+        # Check for negative values (business rule)
+        if number < 0:
+            raise ValueError("Negative values are not supported for this operation")
+
+        # Return integer if the float is a whole number
+        if number.is_integer():
+            return int(number)
+        return number
+
+    except ValueError as e:
+        # Catches: failed float conversion AND our raised ValueError
+        return f"Invalid input: {e}"
+    except (TypeError, AttributeError) as e:
+        # Handle multiple exception types in ONE clause
+        return f"Unexpected type error: {type(e).__name__}: {e}"
+    except Exception as e:
+        # Catch-all for any other exception (use sparingly, log at minimum)
+        return f"An unexpected error occurred: {type(e).__name__}"
+
+# Testing various inputs
+print(process_user_input("3.14"))     # Output: 3.14
+print(process_user_input("42"))       # Output: 42 (as int)
+print(process_user_input("-5.0"))     # Output: Invalid input: Negative values...
+print(process_user_input("hello"))    # Output: Invalid input: could not convert...
+```
+
+⚠️ **Critical Rule: Order Matters!** Put specific exceptions before general ones. If you put `except Exception` first, it will catch everything, and more specific handlers below it will never execute.
+
+```python
+# ✅ CORRECT ORDER: Specific → General
+try:
+    result: float = 10 / float(user_input)
+except ValueError:
+    print("User entered a non-numeric value")
+except ZeroDivisionError:
+    print("Cannot divide by zero")
+except ArithmeticError:
+    print("Some other arithmetic error occurred")
+except Exception:
+    print("Any other unexpected error")
+
+# ❌ WRONG ORDER: General first catches everything
+# try:
+#     result: float = 10 / float(user_input)
+# except Exception:  # This catches EVERYTHING below it!
+#     print("This catches all, including ValueError and ZeroDivisionError")
+# except ValueError:  # DEAD CODE—will never be reached!
+#     print("This handler is unreachable")
+```
+
+---
+
+### The Exception Hierarchy
+
+Python's built-in exceptions are organized in a clear class hierarchy. Understanding this tree helps you write precise exception handlers and know which exceptions are related.
+
+```mermaid
+graph TD
+    BaseException --> SystemExit["SystemExit<br>(sys.exit())"]
+    BaseException --> KeyboardInterrupt["KeyboardInterrupt<br>(Ctrl+C)"]
+    BaseException --> GeneratorExit["GeneratorExit<br>(generator closed)"]
+    BaseException --> Exception
+
+    Exception --> ArithmeticError
+    Exception --> AssertionError
+    Exception --> AttributeError
+    Exception --> EOFError
+    Exception --> ImportError
+    Exception --> LookupError
+    Exception --> NameError
+    Exception --> OSError
+    Exception --> TypeError
+    Exception --> ValueError
+
+    ArithmeticError --> FloatingPointError
+    ArithmeticError --> OverflowError
+    ArithmeticError --> ZeroDivisionError
+
+    ImportError --> ModuleNotFoundError["ModuleNotFoundError<br>(Python 3.6+)"]
+
+    LookupError --> IndexError
+    LookupError --> KeyError
+
+    OSError --> FileNotFoundError
+    OSError --> PermissionError
+    OSError --> ConnectionError
+    ConnectionError --> BrokenPipeError
+    ConnectionError --> ConnectionAbortedError
+    ConnectionError --> ConnectionRefusedError
+    ConnectionError --> ConnectionResetError
+```
+
+💡 **Key Insight:** `except Exception:` catches most runtime errors but intentionally does **not** catch `SystemExit`, `KeyboardInterrupt`, or `GeneratorExit` (which inherit directly from `BaseException`). This is usually the behavior you want—you rarely want to prevent a user from interrupting your program with Ctrl+C.
+
+```python
+import time
+import sys
+
+# ⚠️ Bare except (DON'T DO THIS!)
+# try:
+#     time.sleep(100)
+# except:  # Catches EVERYTHING including SystemExit and KeyboardInterrupt!
+#     print("You can't even Ctrl+C to stop me!")  # Terrible user experience
+
+# ✅ Proper broad handling: except Exception
+try:
+    time.sleep(0.1)  # Short sleep for demo
+except Exception as e:
+    # Handles runtime errors, but Ctrl+C still works
+    print(f"An error occurred: {e}")
+except KeyboardInterrupt:
+    # Optional: handle Ctrl+C gracefully if needed
+    print("\nProgram interrupted by user.")
+    sys.exit(0)
+```
+
+---
+
+### Exception Objects
+
+When an exception is raised, the resulting exception object carries useful information. You can capture it using `as` and access its attributes.
+
+```python
+from typing import List, Tuple
+
+def parse_numbers(values: List[str]) -> Tuple[List[float], List[str]]:
+    """
+    Parse a list of strings to floats.
+    Captures detailed error information from exception objects.
+
+    Returns:
+        A tuple of (successfully_parsed_numbers, error_messages).
+    """
+    results: List[float] = []
+    errors: List[str] = []
+
+    for i, val in enumerate(values):
+        try:
+            results.append(float(val))
+        except ValueError as e:
+            # Access exception attributes:
+            # - str(e) gives the human-readable error message
+            # - e.args gives the tuple of constructor arguments
+            errors.append(f"  Index {i}: '{val}' → {e}")
+
+    return results, errors
+
+test_data: List[str] = ["10", "20.5", "bad", "30", "also_bad", ""]
+parsed, error_list = parse_numbers(test_data)
+
+print(f"Successfully parsed: {parsed}")
+print(f"Errors encountered:")
+for error in error_list:
+    print(error)
+
+# Output:
+# Successfully parsed: [10.0, 20.5, 30.0]
+# Errors encountered:
+#   Index 2: 'bad' → could not convert string to float: 'bad'
+#   Index 4: 'also_bad' → could not convert string to float: 'also_bad'
+#   Index 5: '' → could not convert string to float: ''
+```
+
+**Useful Exception Attributes:**
+
+- `str(exception)` — Human-readable error message
+- `exception.args` — Tuple of arguments passed to the exception constructor
+- `type(exception).__name__` — The exception class name (e.g., `'ValueError'`)
+- `exception.__traceback__` — The traceback object (accessible via `traceback` module)
+
+---
+
+### Creating Custom Exceptions
+
+Custom exceptions make your error handling domain-specific and meaningful. They're just regular classes that inherit from `Exception` (or a more specific built-in).
+
+```python
+from typing import Optional, List
+
+# ── Building a Custom Exception Hierarchy ──
+
+class ApplicationError(Exception):
+    """Base exception class for the entire application."""
+    def __init__(self, message: str, code: Optional[int] = None) -> None:
+        super().__init__(message)
+        self.code: Optional[int] = code
+        self.message: str = message
+
+    def __str__(self) -> str:
+        """Pretty-print with error code if available."""
+        if self.code:
+            return f"[Error {self.code}] {self.message}"
+        return self.message
+
+class ValidationError(ApplicationError):
+    """
+    Raised when user input fails validation.
+    Includes the specific field that failed.
+    """
+    def __init__(self, message: str, field: str) -> None:
+        super().__init__(message, code=422)
+        self.field: str = field
+
+class DatabaseError(ApplicationError):
+    """
+    Raised when a database operation fails.
+    Includes the query that caused the error for debugging.
+    """
+    def __init__(self, message: str, query: str) -> None:
+        super().__init__(message, code=500)
+        self.query: str = query
+
+class NotFoundError(ApplicationError):
+    """
+    Raised when a requested resource doesn't exist.
+    Includes resource type and ID for clear error messages.
+    """
+    def __init__(self, resource_type: str, resource_id: str) -> None:
+        message: str = f"{resource_type} with ID '{resource_id}' not found"
+        super().__init__(message, code=404)
+        self.resource_type: str = resource_type
+        self.resource_id: str = resource_id
+
+# ── Using Custom Exceptions ──
+def register_user(username: str, age: int) -> dict:
+    """
+    Register a new user with comprehensive validation.
+    Each validation failure raises a specific, descriptive custom exception.
+    """
+    if not username or not username.strip():
+        raise ValidationError("Username cannot be empty", field="username")
+
+    if len(username.strip()) < 3:
+        raise ValidationError(
+            f"Username '{username}' is too short (minimum 3 characters required)",
+            field="username"
+        )
+
+    if age < 0:
+        raise ValidationError("Age cannot be negative", field="age")
+    if age < 13:
+        raise ValidationError("User must be at least 13 years old", field="age")
+
+    return {"username": username.strip(), "age": age}
+
+# Client code handling specific custom exceptions
+try:
+    user: dict = register_user("ab", 25)
+except ValidationError as e:
+    print(f"❌ Validation Failed: {e}")
+    print(f"   Problematic field: '{e.field}'")
+except ApplicationError as e:
+    print(f"❌ Application Error ({e.code}): {e}")
+else:
+    print(f"✅ User registered: {user}")
+```
+
+---
+
+### Raising Exceptions
+
+You can proactively raise exceptions using the `raise` keyword. This is essential for:
+
+- Signaling invalid states or inputs
+- Enforcing function contracts (preconditions, postconditions, invariants)
+- Wrapping lower-level exceptions with more context
+
+```python
+from typing import List, Optional
+
+# ── Basic Raising ──
+def validate_email(email: str) -> str:
+    """
+    Validate and normalize an email address.
+    Raises ValueError with a clear message if validation fails.
+    """
+    email = email.strip().lower()
+
+    if not email:
+        raise ValueError("Email address cannot be empty")
+    if "@" not in email:
+        raise ValueError(f"Invalid email: '{email}' (missing '@' symbol)")
+
+    local_part, domain = email.split("@", 1)
+    if not local_part or not domain:
+        raise ValueError(f"Invalid email format: '{email}'")
+    if "." not in domain:
+        raise ValueError(f"Invalid domain in email: '{domain}' (missing dot)")
+
+    return email
+
+# ── Re-raising with Context ──
+def load_user_data(user_id: int, filename: str) -> dict:
+    """
+    Load user data from a file.
+    Re-raises low-level errors with more context about what we were trying to do.
+    """
+    import json
+
+    try:
+        with open(filename, 'r') as file:
+            data: dict = json.load(file)
+    except FileNotFoundError as e:
+        # Wrap the low-level error with domain context
+        raise RuntimeError(
+            f"Data file for user {user_id} not found at '{filename}'"
+        ) from e  # 'from e' chains the exceptions, preserving the original traceback
+    except json.JSONDecodeError as e:
+        raise RuntimeError(
+            f"Corrupted data file for user {user_id}: {e}"
+        ) from e
+
+    if str(user_id) not in data:
+        raise KeyError(f"User {user_id} not found in data file")
+
+    return data[str(user_id)]
+
+# ── Exception Chaining: raise ... from ... ──
+# Using 'from None' suppresses the original traceback for cleaner output
+def parse_config(value: str) -> int:
+    """Parse a config value, raising a clean error on failure."""
+    try:
+        return int(value)
+    except ValueError:
+        raise ValueError(f"Config must be an integer, got: '{value}'") from None
+```
+
+| Syntax                            | Behavior                                      |
+| :-------------------------------- | :-------------------------------------------- |
+| `raise ValueError("msg")`         | Raises a new exception                        |
+| `raise` (inside except)           | Re-raises the currently handled exception     |
+| `raise NewError("msg") from e`    | Chains exceptions; both tracebacks shown      |
+| `raise NewError("msg") from None` | Suppresses the original exception's traceback |
+
+---
+
+### Designing with Exceptions
+
+Good exception handling is a design decision, not an afterthought. Python embraces a philosophy called **EAFP**: "Easier to Ask Forgiveness than Permission."
+
+**EAFP vs LBYL:**
+
+- **LBYL (Look Before You Leap):** Check conditions before performing an operation. Common in C, Java.
+- **EAFP (Easier to Ask Forgiveness than Permission):** Try the operation and handle exceptions if they occur. The Pythonic way.
+
+```python
+import os
+from typing import Optional, List, Dict
+
+# ── LBYL Style (NOT Pythonic) ──
+def read_config_lbyl(filename: str) -> Optional[dict]:
+    """
+    Look Before You Leap: Check everything first.
+    - Verbose, repetitive checks
+    - Race conditions possible (file could be deleted between checks)
+    - Slower (multiple system calls)
+    """
+    import json
+    if not os.path.exists(filename):
+        print(f"Error: File '{filename}' does not exist.")
+        return None
+    if not os.access(filename, os.R_OK):
+        print(f"Error: No read permission for '{filename}'.")
+        return None
+    if os.path.getsize(filename) == 0:
+        print(f"Error: File '{filename}' is empty.")
+        return None
+
+    with open(filename) as f:
+        return json.load(f)
+
+# ── EAFP Style (Pythonic!) ──
+def read_config_eafp(filename: str) -> Optional[dict]:
+    """
+    Easier to Ask Forgiveness than Permission.
+    - Cleaner, more concise
+    - No race conditions
+    - Handles errors at the point of failure
+    """
+    import json
+    try:
+        with open(filename) as f:
+            config: dict = json.load(f)
+        if not config:
+            print(f"Warning: Config file '{filename}' is empty.")
+        return config
+    except FileNotFoundError:
+        print(f"Error: Config file '{filename}' not found.")
+    except PermissionError:
+        print(f"Error: No permission to read '{filename}'.")
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON in '{filename}': {e}")
+    except Exception as e:
+        print(f"Unexpected error reading config: {e}")
+    return None
+```
+
+**Design Principles:**
+
+1.  **Be Specific:** Catch the most specific exception that makes sense. Avoid bare `except:`.
+2.  **Don't Swallow Silently:** At minimum, log the error. An empty `except` block hides problems.
+3.  **Use `finally` for Cleanup:** Or better, use context managers (`with` statements) which handle cleanup automatically.
+4.  **Separate Error Handling from Business Logic:** Keep `try` blocks small and focused.
+
+---
+
+### Assertions
+
+The `assert` statement is a debugging aid that tests a condition. If the condition is `False`, it raises an `AssertionError`. Assertions are meant to check for conditions that should **never** happen if the code is correct—they catch programmer errors, not user errors.
+
+```python
+from typing import List, Optional
+
+def calculate_square_root(value: float) -> float:
+    """
+    Calculate the square root of a number.
+    Uses an assertion to enforce a precondition.
+    """
+    # Precondition: value must be non-negative
+    assert value >= 0, f"Cannot calculate square root of negative number: {value}"
+    return value ** 0.5
+
+def apply_discount(price: float, discount_percent: float) -> float:
+    """
+    Apply a percentage discount to a price.
+    Uses assertions to validate inputs and outputs.
+    """
+    # Input validation with assertions
+    assert price > 0, f"Price must be positive, got {price}"
+    assert 0 <= discount_percent <= 100, \
+        f"Discount must be between 0 and 100 percent, got {discount_percent}"
+
+    discounted: float = price * (1 - discount_percent / 100)
+
+    # Postcondition: result should make sense
+    assert 0 <= discounted <= price, \
+        f"Discounted price {discounted} is out of valid range [0, {price}]"
+
+    return round(discounted, 2)
+
+def get_middle_element(lst: List[int]) -> Optional[int]:
+    """Get the middle element of a non-empty list."""
+    assert len(lst) > 0, "Cannot get middle element of an empty list"
+    return lst[len(lst) // 2]
+
+# Usage
+print(apply_discount(100.0, 20))   # Output: 80.0
+print(get_middle_element([1,2,3])) # Output: 2
+
+# ❌ These would fail:
+# apply_discount(-50, 10)           # AssertionError: Price must be positive
+# get_middle_element([])            # AssertionError: Cannot get middle element...
+
+# ⚠️ CRITICAL WARNING: Assertions can be globally disabled!
+# Running Python with `python -O` (optimized mode) disables ALL assertions.
+# NEVER use assert for runtime validation of user input or critical safety checks.
+# Use explicit if/raise for anything that must run in production.
+```
+
+**When to Use Assertions vs if/raise:**
+| Use `assert` | Use `if ... raise` |
+| :--- | :--- |
+| Debugging during development | Validating user input |
+| Checking invariants that should always be true | Enforcing API contracts at runtime |
+| Catching programmer errors | Handling expected error conditions |
+| Code that can be disabled in production | Code that must ALWAYS execute |
+
+---
+
+### Logging for Debugging
+
+While `print()` works for quick-and-dirty debugging, Python's `logging` module provides a professional, configurable, and persistent way to track your program's behavior across different environments.
+
+```python
+import logging
+from typing import Optional
+
+# Configure logging ONCE at application startup
+logging.basicConfig(
+    level=logging.DEBUG,  # Minimum level to capture
+    format='%(asctime)s [%(levelname)-8s] %(name)s: %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+    handlers=[
+        logging.FileHandler('app.log'),      # Persistent log file
+        logging.StreamHandler(),              # Also print to console
+    ]
+)
+
+# Get a logger for this module (convention: use __name__)
+logger: logging.Logger = logging.getLogger(__name__)
+
+def process_payment(user_id: int, amount: float) -> bool:
+    """
+    Process a payment with comprehensive logging at multiple levels.
+    """
+    logger.info(f"Processing payment: user={user_id}, amount=${amount:.2f}")
+
+    if amount <= 0:
+        logger.warning(f"Invalid payment amount: ${amount:.2f} for user {user_id}")
+        return False
+
+    if amount > 10000:
+        logger.error(f"Payment amount ${amount:.2f} exceeds limit for user {user_id}")
+        return False
+
+    logger.debug("Establishing connection to payment gateway...")
+
+    try:
+        # Simulate payment processing
+        logger.debug("Sending payment request...")
+        # ... actual payment logic here ...
+        logger.info(f"Payment of ${amount:.2f} successfully processed for user {user_id}")
+        return True
+
+    except ConnectionError:
+        logger.error(f"Network error processing payment for user {user_id}")
+        return False
+    except Exception as e:
+        # logger.exception() automatically includes the full traceback
+        logger.exception(f"Unexpected error processing payment for user {user_id}")
+        return False
+
+# Demonstrate log levels
+logger.debug("This is a DEBUG message—detailed diagnostic info")
+logger.info("This is an INFO message—confirming things work as expected")
+logger.warning("This is a WARNING—something unexpected but not critical")
+logger.error("This is an ERROR—a function failed to do its job")
+logger.critical("This is CRITICAL—the entire application may not continue")
+```
+
+| Log Level  | Numeric Value | When to Use                                                     |
+| :--------- | :------------ | :-------------------------------------------------------------- |
+| `DEBUG`    | 10            | Detailed diagnostic info; use freely during development         |
+| `INFO`     | 20            | Confirmation that things are working as expected                |
+| `WARNING`  | 30            | An indication that something unexpected happened, or may happen |
+| `ERROR`    | 40            | A more serious problem; a specific function couldn't perform    |
+| `CRITICAL` | 50            | A fatal error; the application itself may be unable to continue |
+
+💡 **Best Practice:** Use parameterized logging (`logger.info("User %s logged in", username)`) rather than f-strings (`logger.info(f"User {username} logged in")`). The logging module's built-in interpolation is deferred until needed, making it more efficient.
+
+---
+
+### Common Debugging Techniques
+
+Here's a toolkit of practical debugging strategies you'll use throughout your career:
+
+**1. Rubber Duck Debugging**
+Explain your code, line by line, out loud to an inanimate object (or a patient colleague). The act of verbalizing your assumptions often reveals the flaw you've been overlooking.
+
+**2. Strategic Print Debugging**
+Add temporary `print()` statements to trace execution flow and inspect variable values at key decision points.
+
+```python
+def complex_calculation(a: float, b: float, c: float) -> float:
+    """Debug with strategic print statements."""
+    print(f"[DEBUG] Input: a={a}, b={b}, c={c}")
+
+    step1: float = a * b
+    print(f"[DEBUG] Step 1 (a*b): {step1}")
+
+    step2: float = step1 + c
+    print(f"[DEBUG] Step 2 (step1+c): {step2}")
+
+    denominator: float = a + b
+    print(f"[DEBUG] Denominator (a+b): {denominator}")
+
+    if denominator == 0:
+        print("[DEBUG] Early return: denominator is zero!")
+        return 0.0
+
+    step3: float = step2 / denominator
+    print(f"[DEBUG] Step 3 (step2/denominator): {step3}")
+
+    return step3
+```
+
+**3. Pretty-Printing Complex Data Structures**
+
+```python
+from pprint import pprint
+
+complex_data: dict = {
+    "users": [
+        {"id": 1, "name": "Alice", "roles": ["admin", "editor"]},
+        {"id": 2, "name": "Bob", "roles": ["viewer"]},
+    ],
+    "settings": {
+        "dark_mode": True,
+        "notifications": {"email": True, "push": False, "sms": None},
+    },
+}
+pprint(complex_data, indent=2, width=80, sort_dicts=False)
+```
+
+**4. Introspection with `dir()`, `type()`, and `vars()`**
+
+```python
+obj: str = "hello, world"
+print(f"Type: {type(obj)}")           # <class 'str'>
+print(f"Type name: {type(obj).__name__}")  # 'str'
+print(f"String methods: {[m for m in dir(obj) if not m.startswith('__')]}")
+# ['capitalize', 'casefold', 'center', 'count', ...]
+```
+
+**5. Binary Search Debugging (Divide and Conquer)**
+When you can't pinpoint a bug, comment out half the code. If the bug persists, it's in the remaining half. Repeat until you isolate the problematic section.
+
+**6. Check Your Assumptions**
+Many bugs come from incorrect assumptions about inputs, return values, or state. Verify with `assert` or explicit checks.
+
+---
+
+### Which Errors Should You Handle?
+
+This is as much an art as a science. Here are guiding principles refined from the Python community:
+
+**✅ DO Handle (Expected Errors):**
+
+- File and network operations (`FileNotFoundError`, `ConnectionError`, `TimeoutError`)
+- User input validation (`ValueError`, `TypeError` from parsing)
+- External API calls that may fail, time out, or return errors
+- Resource cleanup with `finally` or context managers
+- Domain-specific error conditions with custom exceptions
+
+**❌ DON'T Handle—Let Them Surface (Programming Errors):**
+
+- Bugs you should fix: `IndexError` from miscalculated indices, `KeyError` from missing expected keys
+- `AssertionError` from violated invariants (these indicate bugs to fix)
+- `NameError` from typos in variable names (fix the typo!)
+- Critical failures where the program genuinely cannot recover
+
+```python
+from typing import Optional, List
+import requests
+
+# ✅ GOOD: Handling operational errors
+def fetch_weather(city: str) -> Optional[dict]:
+    """Fetch weather data with proper error handling."""
+    try:
+        response = requests.get(
+            f"https://api.weather.example/v1/{city}",
+            timeout=5
+        )
+        response.raise_for_status()  # Raises HTTPError for 4xx/5xx
+        return response.json()
+    except requests.exceptions.Timeout:
+        print(f"Weather API timed out for '{city}'. Please try again.")
+        return None
+    except requests.exceptions.ConnectionError:
+        print(f"Cannot connect to weather service. Check your internet connection.")
+        return None
+    except requests.exceptions.HTTPError as e:
+        print(f"Weather service returned an error: {e}")
+        return None
+
+# ❌ BAD: Hiding programming errors
+# try:
+#     first_user: str = user_list[0]  # IndexError if list is empty
+#     result: float = 100 / user_scores[first_user]  # KeyError, ZeroDivisionError
+# except Exception:
+#     pass  # Silently swallowing bugs you should fix with proper checks!
+```
+
+**The Golden Rule:** Only catch exceptions you can actually **handle** in a meaningful way. If you can't fix the problem, let the exception propagate up to a level that can.
+
+---
+
+## Part IX: File Handling & Serialization
+
+Programs that work only with data in memory are limited. Real-world applications need to persist data—saving it to files on disk, reading it back later, and exchanging it with other systems. This section covers Python's elegant tools for working with files and serializing data into standard formats. Mastering these skills enables your programs to interact with the world beyond their own runtime.
+
+### Opening and Closing Files
+
+Working with files begins with the built-in `open()` function. It returns a **file object** that acts as a bridge between your Python code and the file on disk.
+
+**The `open()` Function:**
+
+```python
+open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None)
+```
+
+The two most critical parameters are `file` (the path to the file) and `mode` (how you want to use it).
+
+**File Modes:**
+
+| Mode   | Meaning                     | File Must Exist?         | File Position |
+| :----- | :-------------------------- | :----------------------- | :------------ |
+| `'r'`  | Read (text, default)        | Yes                      | Beginning     |
+| `'w'`  | Write (text, truncates)     | No (created if needed)   | Beginning     |
+| `'a'`  | Append (text)               | No (created if needed)   | End           |
+| `'x'`  | Exclusive creation          | **No** (fails if exists) | Beginning     |
+| `'r+'` | Read and Write              | Yes                      | Beginning     |
+| `'b'`  | Binary mode (add to others) | Depends on base mode     | Depends       |
+| `'t'`  | Text mode (default)         | Depends                  | Depends       |
+
+```python
+from typing import TextIO, BinaryIO
+
+# ── Opening Files with Different Modes ──
+
+# Open for reading (file must exist)
+file_read: TextIO = open("data.txt", "r")
+
+# Open for writing (creates file if needed, overwrites if exists)
+file_write: TextIO = open("output.txt", "w")
+
+# Open for appending (creates if needed, writes at end)
+file_append: TextIO = open("log.txt", "a")
+
+# Exclusive creation (fails if file already exists)
+# file_excl: TextIO = open("new_file.txt", "x")
+
+# Binary mode for non-text files (images, PDFs, etc.)
+file_binary: BinaryIO = open("image.png", "rb")
+
+# ⚠️ ALWAYS close files when you're done!
+file_read.close()
+file_write.close()
+file_append.close()
+file_binary.close()
+```
+
+**Why Closing Files Matters:**
+
+- **Resource Limits:** Operating systems limit how many files a process can have open simultaneously.
+- **Data Integrity:** Buffered data may not be written to disk until the file is closed.
+- **Resource Leaks:** Unclosed file handles consume memory and system resources.
+
+---
+
+### Reading from Files
+
+Python provides several methods for reading file content, each suited to different situations.
+
+```mermaid
+graph TD
+    subgraph "Reading Strategies"
+        A[File Content] --> B{How much data<br>do you need?};
+        B -- All at once --> C[".read()<br>Entire file as string"];
+        B -- All lines --> D[".readlines()<br>List of line strings"];
+        B -- Line by line --> E[".readline()<br>Single line (includes \\n)"];
+        B -- Iterate --> F["for line in file:<br>Memory-efficient loop"];
+    end
+```
+
+```python
+from typing import List, Optional
+
+# Example file content: data.txt
+# Line 1: Hello, World!
+# Line 2: Python is amazing.
+# Line 3: File handling is fun.
+
+# ── Method 1: .read() — Entire file as a single string ──
+with open("data.txt", "r") as file:
+    entire_content: str = file.read()
+    print(f"Entire file:\n{entire_content}")
+
+# ── Method 2: .readlines() — All lines as a list ──
+with open("data.txt", "r") as file:
+    all_lines: List[str] = file.readlines()
+    print(f"All lines: {all_lines}")
+    # Output: ['Hello, World!\n', 'Python is amazing.\n', 'File handling is fun.\n']
+
+# ── Method 3: .readline() — One line at a time ──
+with open("data.txt", "r") as file:
+    first_line: str = file.readline()
+    second_line: str = file.readline()
+    print(f"First: {first_line.strip()}")   # 'Hello, World!'
+    print(f"Second: {second_line.strip()}")  # 'Python is amazing.'
+
+# ── Method 4: Iteration (MOST PYTHONIC for line-by-line) ──
+with open("data.txt", "r") as file:
+    for line_number, line in enumerate(file, start=1):
+        print(f"  Line {line_number}: {line.strip()}")
+
+# ── Method 5: .read(N) — Read N characters ──
+with open("data.txt", "r") as file:
+    chunk: str = file.read(10)  # Read first 10 characters
+    print(f"First 10 chars: '{chunk}'")  # Output: 'Hello, Wor'
+```
+
+**Choosing the Right Method:**
+
+| Method              | Best For                       | Memory Usage       |
+| :------------------ | :----------------------------- | :----------------- |
+| `.read()`           | Small files fitting in memory  | Entire file in RAM |
+| `.readlines()`      | Need list of lines to process  | Entire file in RAM |
+| `for line in file:` | Large files, streaming         | One line at a time |
+| `.readline()`       | Sequential, controlled reading | One line at a time |
+| `.read(N)`          | Fixed-size chunks, binary data | N bytes at a time  |
+
+---
+
+### Writing to Files
+
+Python's file writing methods give you precise control over what gets written to disk.
+
+```python
+from typing import List
+
+# ── Method 1: .write() — Write a single string ──
+with open("output.txt", "w") as file:
+    file.write("Hello, World!\n")
+    file.write("This is a new line.\n")
+
+# ── Method 2: .writelines() — Write a list of strings ──
+lines_to_write: List[str] = [
+    "First line\n",
+    "Second line\n",
+    "Third line\n",
+]
+with open("output.txt", "w") as file:
+    file.writelines(lines_to_write)
+    # ⚠️ Note: writelines() does NOT add newlines automatically!
+    # You must include \n in each string if you want line breaks.
+
+# ── Method 3: print() with file parameter ──
+with open("output.txt", "w") as file:
+    print("Formatted output:", 42, True, file=file)
+    print(f"Python version: 3.12", file=file)
+    # print() automatically adds newlines!
+
+# ── Append Mode: Adding to existing content ──
+with open("output.txt", "a") as file:
+    file.write("This line is appended to the end.\n")
+```
+
+**Critical Distinction: `'w'` vs `'a'`**
+
+```python
+# 'w' mode: Truncates the file first (overwrites everything!)
+with open("demo.txt", "w") as f:
+    f.write("First write\n")
+
+with open("demo.txt", "w") as f:
+    f.write("Second write\n")
+# File now contains ONLY: "Second write\n"
+
+# 'a' mode: Appends to the end (preserves existing content!)
+with open("demo.txt", "a") as f:
+    f.write("Third write (appended)\n")
+# File now contains: "Second write\nThird write (appended)\n"
+```
+
+---
+
+### The with Block Statement
+
+The `with` statement is the **Pythonic way** to work with files. It guarantees that the file is properly closed when the block exits—even if an exception occurs inside the block.
+
+```mermaid
+graph TD
+    A["with open('file.txt') as f:"] --> B["f.__enter__()<br>Open file, return file object"]
+    B --> C["Execute the with-block body"]
+    C --> D{Exception in block?}
+    D -- No --> E["f.__exit__(None, None, None)<br>Close file"]
+    D -- Yes --> F["f.__exit__(exc_type, exc_val, traceback)<br>Close file anyway!"]
+    E --> G[Continue after with-block]
+    F --> H{Return True?}
+    H -- Yes --> G
+    H -- No --> I[Re-raise exception]
+```
+
+```python
+from typing import List
+
+# ── Using with: The Pythonic Way ──
+# The file is automatically closed, even if an exception occurs
+with open("data.txt", "r") as file:
+    content: str = file.read()
+    words: List[str] = content.split()
+    print(f"Word count: {len(words)}")
+# File is safely closed here—no need for file.close()
+
+# ── Without with: Manual cleanup (error-prone!) ──
+# file = open("data.txt", "r")
+# try:
+#     content = file.read()
+#     # What if split() raises an exception?
+#     words = content.split()
+# finally:
+#     file.close()  # Must remember to close in finally!
+
+# ── Multiple file contexts ──
+with open("source.txt", "r") as source, open("destination.txt", "w") as dest:
+    for line in source:
+        dest.write(line.upper())
+```
+
+**Benefits of `with`:**
+
+- **Automatic Cleanup:** Files are closed as soon as the block exits.
+- **Exception Safety:** Cleanup happens even if an exception is raised.
+- **Readability:** The intent is clear; the scope of file usage is explicit.
+- **Pythonic:** It's the community-preferred pattern for resource management.
+
+> 📖 For more on context managers, see: [Python Context Manager Documentation](https://docs.python.org/3/library/contextlib.html)
+
+---
+
+### JSON Serialization
+
+**JSON** (JavaScript Object Notation) is a lightweight, human-readable data interchange format. It's the universal language of web APIs, configuration files, and cross-language data sharing. Python's `json` module provides seamless serialization (Python → JSON) and deserialization (JSON → Python).
+
+**JSON ↔ Python Type Mapping:**
+
+| JSON Type          | Python Type |
+| :----------------- | :---------- |
+| `object`           | `dict`      |
+| `array`            | `list`      |
+| `string`           | `str`       |
+| `number` (integer) | `int`       |
+| `number` (real)    | `float`     |
+| `true`             | `True`      |
+| `false`            | `False`     |
+| `null`             | `None`      |
+
+```python
+import json
+from typing import Dict, List, Any
+
+# ── Serialization: Python → JSON (dumps/dump) ──
+
+# Data to serialize
+user_data: Dict[str, Any] = {
+    "name": "Alice Johnson",
+    "age": 30,
+    "email": "alice@example.com",
+    "is_active": True,
+    "languages": ["Python", "TypeScript", "SQL"],
+    "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "zip": "10001"
+    },
+    "metadata": None
+}
+
+# json.dumps(): Python dict → JSON string
+json_string: str = json.dumps(user_data, indent=2, ensure_ascii=False)
+print("Serialized JSON string:")
+print(json_string)
+
+# json.dump(): Write JSON directly to a file
+with open("user.json", "w") as file:
+    json.dump(user_data, file, indent=2)
+
+# ── Deserialization: JSON → Python (loads/load) ──
+
+# json.loads(): JSON string → Python dict
+json_text: str = '{"username": "bob", "score": 95, "active": false}'
+parsed_data: Dict[str, Any] = json.loads(json_text)
+print(f"\nParsed: {parsed_data}")
+print(f"Username: {parsed_data['username']}")  # 'bob'
+
+# json.load(): Read JSON from a file
+with open("user.json", "r") as file:
+    loaded_data: Dict[str, Any] = json.load(file)
+    print(f"\nLoaded from file: {loaded_data['name']}")  # 'Alice Johnson'
+```
+
+**Working with Custom Objects:**
+
+```python
+import json
+from typing import Any, Dict
+
+class Product:
+    """A product class that's not directly JSON-serializable."""
+    def __init__(self, name: str, price: float, in_stock: bool) -> None:
+        self.name: str = name
+        self.price: float = price
+        self.in_stock: bool = in_stock
+
+# ❌ This fails: Product is not JSON-serializable
+# json.dumps(Product("Laptop", 999.99, True))
+
+# ✅ Solution 1: Custom encoder function
+def product_to_dict(product: Product) -> Dict[str, Any]:
+    """Convert a Product instance to a JSON-serializable dict."""
+    return {
+        "name": product.name,
+        "price": product.price,
+        "in_stock": product.in_stock
+    }
+
+product: Product = Product("Wireless Mouse", 49.99, True)
+json_str: str = json.dumps(product, default=product_to_dict)
+print(json_str)  # {"name": "Wireless Mouse", "price": 49.99, "in_stock": true}
+
+# ✅ Solution 2: Custom JSONEncoder class
+class ProductEncoder(json.JSONEncoder):
+    def default(self, obj: Any) -> Any:
+        if isinstance(obj, Product):
+            return {"name": obj.name, "price": obj.price, "in_stock": obj.in_stock}
+        return super().default(obj)
+
+json_str2: str = json.dumps(product, cls=ProductEncoder)
+print(json_str2)
+```
+
+**Useful `json` Parameters:**
+
+| Parameter      | Purpose                               | Example              |
+| :------------- | :------------------------------------ | :------------------- |
+| `indent`       | Pretty-print with N spaces            | `indent=2`           |
+| `ensure_ascii` | Escape non-ASCII characters           | `ensure_ascii=False` |
+| `sort_keys`    | Sort dictionary keys                  | `sort_keys=True`     |
+| `default`      | Function for non-serializable objects | `default=str`        |
+| `cls`          | Custom JSONEncoder subclass           | `cls=MyEncoder`      |
+
+> 📖 More details: [Python JSON Module Documentation](https://docs.python.org/3/library/json.html)
+
+---
+
+### Pickle Serialization
+
+**Pickle** is Python's native serialization format. Unlike JSON, it can serialize almost any Python object—including custom classes, functions, and complex data structures. However, it comes with significant caveats.
+
+```python
+import pickle
+from typing import Any, List, Dict
+
+# ── Pickle: Python objects → bytes (dumps/dump) ──
+
+# Complex Python objects that JSON can't handle directly
+class User:
+    def __init__(self, user_id: int, name: str, preferences: Dict[str, Any]) -> None:
+        self.user_id: int = user_id
+        self.name: str = name
+        self.preferences: Dict[str, Any] = preferences
+
+    def greet(self) -> str:
+        return f"Hello, I'm {self.name}!"
+
+# Create objects
+user: User = User(42, "Charlie", {"theme": "dark", "language": "en"})
+data_tuple: tuple = (1, "hello", [3.14, True, None])
+
+# pickle.dumps(): Python object → bytes
+pickled_bytes: bytes = pickle.dumps(user)
+print(f"Pickled User: {pickled_bytes[:50]}...")  # Binary data (not human-readable)
+
+# pickle.dump(): Write pickled object to a file
+with open("user.pkl", "wb") as file:  # Note: binary mode 'wb'
+    pickle.dump(user, file)
+
+# ── Unpickle: bytes → Python objects (loads/load) ──
+
+# pickle.loads(): bytes → Python object
+restored_user: User = pickle.loads(pickled_bytes)
+print(f"Restored: {restored_user.name}")  # 'Charlie'
+print(restored_user.greet())              # "Hello, I'm Charlie!"
+
+# pickle.load(): Read pickled object from a file
+with open("user.pkl", "rb") as file:  # Note: binary mode 'rb'
+    loaded_user: User = pickle.load(file)
+    print(f"Loaded from file: {loaded_user.preferences}")  # {'theme': 'dark', 'language': 'en'}
+```
+
+**Pickle Protocol Versions:**
+
+```python
+import pickle
+
+data: dict = {"message": "Hello"}
+
+# Different protocol versions (higher = newer, more efficient)
+for protocol in range(pickle.HIGHEST_PROTOCOL + 1):
+    pickled: bytes = pickle.dumps(data, protocol=protocol)
+    print(f"Protocol {protocol}: {len(pickled)} bytes")
+```
+
+---
+
+### Comparing JSON & Pickle
+
+Choosing between JSON and Pickle depends entirely on your use case. Here's a comprehensive comparison:
+
+```mermaid
+graph TD
+    subgraph "JSON (JavaScript Object Notation)"
+        J1[Human-readable text format]
+        J2[Language-independent]
+        J3[Safe for untrusted data]
+        J4[Limited to basic types]
+        J5[Web APIs, config files, data exchange]
+    end
+
+    subgraph "Pickle (Python Native)"
+        P1[Binary format]
+        P2[Python-specific]
+        P3[⚠️ UNSAFE for untrusted data]
+        P4[Serializes almost any Python object]
+        P5[Caching, internal persistence, ML models]
+    end
+
+    Q{Need to share<br>data outside Python?} -- Yes --> JSON[Choose JSON]
+    Q -- No --> R{Need to serialize<br>custom Python objects?}
+    R -- Yes --> Pickle[Choose Pickle]
+    R -- No --> JSON2[Prefer JSON for safety and readability]
+```
+
+| Feature              | JSON                                                  | Pickle                                   |
+| :------------------- | :---------------------------------------------------- | :--------------------------------------- |
+| **Readability**      | Human-readable text                                   | Binary (not human-readable)              |
+| **Language Support** | Universal (all languages)                             | Python only                              |
+| **Security**         | Safe to parse untrusted data (with precautions)       | ⚠️ **Never unpickle untrusted data!**    |
+| **Supported Types**  | `dict`, `list`, `str`, `int`, `float`, `bool`, `None` | Almost any Python object                 |
+| **Custom Objects**   | Requires custom encoder/decoder                       | Automatic                                |
+| **Performance**      | Generally faster for simple data                      | Can be faster for complex Python objects |
+| **File Extension**   | `.json`                                               | `.pkl` or `.pickle`                      |
+| **Use Cases**        | APIs, configs, data exchange, web                     | Caching, ML models, internal storage     |
+
+```python
+import json
+import pickle
+from typing import Dict, Any, List
+
+# ── When to Use JSON ──
+config: Dict[str, Any] = {
+    "app_name": "MyApp",
+    "version": "2.1.0",
+    "debug_mode": False,
+    "max_connections": 100,
+}
+
+# ✅ JSON: Config file (human-readable, editable by non-Python tools)
+with open("config.json", "w") as f:
+    json.dump(config, f, indent=2)
+
+# ✅ JSON: API response
+api_response: str = json.dumps({"status": "ok", "data": config})
+print(f"API Response: {api_response}")
+
+# ── When to Use Pickle ──
+
+class MachineLearningModel:
+    """A complex Python object with methods and internal state."""
+    def __init__(self, name: str) -> None:
+        self.name: str = name
+        self.weights: List[float] = [0.1, 0.5, 0.3, 0.8]
+        self.trained: bool = True
+
+    def predict(self, features: List[float]) -> float:
+        """Simulate a prediction."""
+        return sum(w * f for w, f in zip(self.weights, features))
+
+# ✅ Pickle: Save a trained model (complex Python object)
+model: MachineLearningModel = MachineLearningModel("ImageClassifier")
+with open("model.pkl", "wb") as f:
+    pickle.dump(model, f)
+
+# Later: load and use the model
+with open("model.pkl", "rb") as f:
+    loaded_model: MachineLearningModel = pickle.load(f)
+
+prediction: float = loaded_model.predict([0.5, 0.2, 0.9, 0.1])
+print(f"Model '{loaded_model.name}' prediction: {prediction:.4f}")
+```
+
+⚠️ **Critical Security Warning:**
+
+```python
+# NEVER unpickle data from untrusted sources!
+# Malicious pickle data can execute arbitrary code on your machine.
+
+# ❌ DANGEROUS: Unpickling user-supplied data
+# user_data = pickle.loads(request.body)
+
+# ✅ SAFER ALTERNATIVE: Use JSON or a secure serialization format
+# import json
+# safe_data = json.loads(request.body)
+```
+
+> 📖 For more, see: [Python Pickle Documentation](https://docs.python.org/3/library/pickle.html)
+
+---
