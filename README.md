@@ -1,6 +1,5 @@
-# Table of Contents
+# Learn Python
 
-Here's the unified table of contents in markdown format:
 
 ## Part I: Getting Started
 
