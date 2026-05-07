@@ -1,4 +1,263 @@
-# Learn Python
+# Table of Contents
+
+Here's the unified table of contents in markdown format:
+
+```markdown
+# Table of Contents
+
+## Part I: Getting Started
+
+- [What is Python?](#what-is-python)
+- [Why learn Python?](#why-learn-python)
+- [Python Alternatives](#python-alternatives)
+- [Understanding Python Versions](#understanding-python-versions)
+- [Installation and Setup](#installation-and-setup)
+- [Setting Up Python on macOS](#setting-up-python-on-macos)
+- [Installing an IDE (VS Code)](#installing-an-ide-vs-code)
+- [Hello World](#hello-world)
+- [How Python Runs Programs](#how-python-runs-programs)
+- [How You Run Programs](#how-you-run-programs)
+
+## Part II: Fundamentals & Built-in Types
+
+- [Understanding Data Types and Type Hints](#understanding-data-types-and-type-hints)
+- [Introducing Python Object Types and Type Hints](#introducing-python-object-types-and-type-hints)
+- [Working with Variables](#working-with-variables)
+- [Variables Naming Conventions](#variables-naming-conventions)
+- [Delete variables](#delete-variables)
+- [The Dynamic Typing Interlude](#the-dynamic-typing-interlude)
+- [Python Builtin Types](#python-builtin-types)
+  - [None Type](#none-type)
+  - [bool (Boolean)](#bool-boolean)
+  - [Numeric Types](#numeric-types)
+    - [int (Integer)](#int-integer)
+    - [float (Floating-Point)](#float-floating-point)
+    - [complex (Complex Numbers)](#complex-complex-numbers)
+  - [Text Type](#text-type)
+    - [str (String)](#str-string)
+  - [Binary Sequence Types](#binary-sequence-types)
+    - [bytes](#bytes)
+    - [bytearray](#bytearray)
+    - [memoryview](#memoryview)
+- [Using Operators](#using-operators)
+- [Special Behavior with Numbers](#special-behavior-with-numbers)
+- [String Fundamentals](#string-fundamentals)
+- [String Methods](#string-methods)
+- [Escaping Characters](#escaping-characters)
+- [String interpolation](#string-interpolation)
+- [Multiline Strings](#multiline-strings)
+- [Adding Comments and Docstrings](#adding-comments-and-docstrings)
+- [The Documentation Interlude](#the-documentation-interlude)
+- [Variable Scope (LEGB Rule)](#variable-scope-legb-rule)
+- [The input() Function](#the-input-function)
+
+## Part III: Data Structures
+
+- Sequence Types
+  - Strings
+  - List
+  - Tuples
+  - Dictionary
+- Access Individual Elements of a Sequence
+- Accessing Slice of a Sequence
+- Getting length of a Sequence
+- Determining if a given item is in a Sequence
+- Determining How many Instances of an Item are in a Sequence
+- Finding the first instance of a item in Sequence
+- Merging Sequences
+- Repeating Sequences
+- List Methods
+- Merging two List
+- Iterating over Sequence
+- Traditional for Loop with the range() function
+- The enumerate()
+- Choosing the Right Data Structure
+- Comprehensions (List, Dict, Set)
+- Combining Comprehensions and Conditionals
+- Diving Deeper into Iterable Methods
+
+## Part IV: Statements, Syntax & Flow Control
+
+- [Introducing Python Statements](#introducing-python-statements)
+- [Assignments, Expressions, and Prints](#assignments-expressions-and-prints)
+- [if Tests and Syntax Rules](#if-tests-and-syntax-rules)
+- [Boolean Operators](#boolean-operators)
+- [Grouping Conditionals](#grouping-conditionals)
+- [What About switch? (Match/Case)](#what-about-switch-matchcase)
+- [while and for Loops](#while-and-for-loops)
+- [Using else in Loops](#using-else-in-loops)
+- [The range() Function](#the-range-function)
+- [break and continue](#break-and-continue)
+- [Iterations and Comprehensions](#iterations-and-comprehensions)
+- [Iterables and Iteration Protocols](#iterables-and-iteration-protocols)
+
+## Part V: Functions & Generators
+
+- [Function Basics](#function-basics)
+- [Default and Keyword Arguments](#default-and-keyword-arguments)
+- [Understanding return](#understanding-return)
+- [Arguments](#arguments)
+- [Scopes](#scopes)
+- [Unpacking Function Arguments](#unpacking-function-arguments)
+- [Naming Conventions](#naming-conventions)
+- [Nested Functions](#nested-functions)
+- [Passing Function As Arguments](#passing-function-as-arguments)
+- [Anonymous Functions & Lambda Functions](#anonymous-functions--lambda-functions)
+- [map(), filter(), and reduce()](#map-filter-and-reduce)
+- [Functions That Take a Variable Number of Arguments](#functions-that-take-a-variable-number-of-arguments)
+- [Decorators](#decorators)
+- [Comprehensions and Generations](#comprehensions-and-generations)
+
+## Part VI: Modules & Packages
+
+- [Libraries](#libraries)
+- [Modules, Packages and Libraries](#modules-packages-and-libraries)
+- [Modules: The Big Picture](#modules-the-big-picture)
+- [What are Modules?](#what-are-modules)
+- [Module Coding Basics](#module-coding-basics)
+- [Creating a Module](#creating-a-module)
+- [Importing Modules](#importing-modules)
+- [Import Syntaxes](#import-syntaxes)
+- [Module Packages](#module-packages)
+- [What are Packages?](#what-are-packages)
+- [The **init**.py File](#the-__init__py-file)
+- [Absolute vs Relative Imports](#absolute-vs-relative-imports)
+- [Controlling Exports (**all**)](#controlling-exports-__all__)
+- [Advanced Module Topics](#advanced-module-topics)
+- [The **name** Variable](#the-__name__-variable)
+- [The **pycache** Folder](#the-__pycache__-folder)
+- [Module Search Path](#module-search-path)
+- [Reloading Modules](#reloading-modules)
+- [Exploring the Standard Library](#exploring-the-standard-library)
+- [Module Docstrings](#module-docstrings)
+- [Using PyPI, the Python Package Index](#using-pypi-the-python-package-index)
+- [Using Pip, the Python Package Installer and Commands](#using-pip-the-python-package-installer-and-commands)
+
+## Part VII: Object-Oriented Programming
+
+- [OOP: The Big Picture](#oop-the-big-picture)
+- [What is OOP?](#what-is-oop)
+- [Class Coding Basics](#class-coding-basics)
+- [Classes and Instances](#classes-and-instances)
+- [Constructor & Instance Attributes](#constructor--instance-attributes)
+- [Class Attributes](#class-attributes)
+- [A More Realistic Example](#a-more-realistic-example)
+- [Class Coding Details](#class-coding-details)
+- [Instance vs Class vs Static Methods](#instance-vs-class-vs-static-methods)
+- [Special Methods (Dunder Methods)](#special-methods-dunder-methods)
+- [Operator Overloading](#operator-overloading)
+- [Private & Public Attributes](#private--public-attributes)
+- [Properties vs Attributes](#properties-vs-attributes)
+- [Designing with Classes](#designing-with-classes)
+- [Inheritance](#inheritance)
+- [super() and MRO](#super-and-mro)
+- [Composition vs Inheritance](#composition-vs-inheritance)
+- [Abstract Base Classes (ABC)](#abstract-base-classes-abc)
+- [Dataclasses](#dataclasses)
+- [Encapsulation and Polymorphism](#encapsulation-and-polymorphism)
+- [Advanced Class Topics](#advanced-class-topics)
+
+## Part VIII: Error Handling & Debugging
+
+- [Exception Basics](#exception-basics)
+- [Understanding Error Types](#understanding-error-types)
+- [Syntax Errors](#syntax-errors)
+- [Runtime Errors (Exceptions)](#runtime-errors-exceptions)
+- [Logical Errors](#logical-errors)
+- [Finding Errors with the Debugger](#finding-errors-with-the-debugger)
+- [Exception Coding Details](#exception-coding-details)
+- [try, except, else, finally](#try-except-else-finally)
+- [Handling Multiple Exceptions](#handling-multiple-exceptions)
+- [The Exception Hierarchy](#the-exception-hierarchy)
+- [Exception Objects](#exception-objects)
+- [Creating Custom Exceptions](#creating-custom-exceptions)
+- [Raising Exceptions](#raising-exceptions)
+- [Designing with Exceptions](#designing-with-exceptions)
+- [Assertions](#assertions)
+- [Logging for Debugging](#logging-for-debugging)
+- [Common Debugging Techniques](#common-debugging-techniques)
+- [Which Errors Should You Handle?](#which-errors-should-you-handle)
+
+## Part IX: File Handling & Serialization
+
+- [Opening and Closing Files](#opening-and-closing-files)
+- [Reading from Files](#reading-from-files)
+- [Writing to Files](#writing-to-files)
+- [The with Block Statement](#the-with-block-statement)
+- [JSON Serialization](#json-serialization)
+- [Pickle Serialization](#pickle-serialization)
+- [Comparing JSON & Pickle](#comparing-json--pickle)
+
+## Part X: Package Management & Virtual Environments
+
+- [Python Package Index (PyPI)](#python-package-index-pypi)
+- [pip: The Standard Package Installer](#pip-the-standard-package-installer)
+- [Installing Packages](#installing-packages)
+- [requirements.txt](#requirementstxt)
+- [pyproject.toml](#pyprojecttoml)
+- [Package Versioning](#package-versioning)
+- [Why Virtual Environments?](#why-virtual-environments)
+- [Standard venv](#standard-venv)
+- [Creating & Activating venv](#creating--activating-venv)
+- [uv: The Fast Modern Alternative](#uv-the-fast-modern-alternative)
+- [pipenv: Python Dev Workflow](#pipenv-python-dev-workflow)
+- [poetry: Dependency & Packaging](#poetry-dependency--packaging)
+- [Using Anaconda](#using-anaconda)
+- [Comparison and Recommendations](#comparison-and-recommendations)
+
+## Part XI: Popular Libraries in Practice
+
+- [Using requests Library](#using-requests-library)
+- [Using hashlib](#using-hashlib)
+- [Using json](#using-json)
+- [Using pickle](#using-pickle)
+
+## Part XII: Async Programming
+
+- [Concurrency vs Parallelism](#concurrency-vs-parallelism)
+- [Threading (I/O-bound Tasks)](#threading-io-bound-tasks)
+- [The Global Interpreter Lock (GIL)](#the-global-interpreter-lock-gil)
+- [Creating and Starting Threads](#creating-and-starting-threads)
+- [Thread Synchronization](#thread-synchronization)
+- [Multiprocessing (CPU-bound Tasks)](#multiprocessing-cpu-bound-tasks)
+- [Process Pools](#process-pools)
+- [AsyncIO](#asyncio)
+- [async/await Syntax](#asyncawait-syntax)
+- [Tasks and Coroutines](#tasks-and-coroutines)
+- [Comparing Approaches](#comparing-approaches)
+
+## Part XIII: Web Development & APIs
+
+- [HTTP Requests Basics](#http-requests-basics)
+- [API Endpoints / URLs](#api-endpoints--urls)
+- [Setting Up Flask](#setting-up-flask)
+- [Creating Routes (GET, POST)](#creating-routes-get-post)
+- [Sending Requests from Python](#sending-requests-from-python)
+- [Adding a User Interface](#adding-a-user-interface)
+
+## Part XIV: Advanced Python Features
+
+- [Unicode and Byte Strings](#unicode-and-byte-strings)
+- [Managed Attributes](#managed-attributes)
+- [Decorators](#decorators)
+- [Decorators Deep Dive](#decorators-deep-dive)
+- [Metaclasses](#metaclasses)
+- [Iterators and Generators Deep Dive](#iterators-and-generators-deep-dive)
+- [Context Managers Deep Dive](#context-managers-deep-dive)
+- [Type Hinting and mypy](#type-hinting-and-mypy)
+- [Regular Expressions](#regular-expressions)
+- [C Extensions (ctypes)](#c-extensions-ctypes)
+
+## Part XV: Ecosystem & Best Practices
+
+- [Testing (pytest, unittest)](#testing-pytest-unittest)
+- [Linting and Formatting (ruff, black)](#linting-and-formatting-ruff-black)
+- [PEP 8 Style Guide](#pep-8-style-guide)
+- [Building and Distributing Packages](#building-and-distributing-packages)
+- [Documentation](#documentation)
+```
+
+---
 
 ## Part I: Getting Started
 
