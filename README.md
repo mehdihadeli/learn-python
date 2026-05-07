@@ -2,9 +2,6 @@
 
 Here's the unified table of contents in markdown format:
 
-```markdown
-# Table of Contents
-
 ## Part I: Getting Started
 
 - [What is Python?](#what-is-python)
@@ -53,28 +50,28 @@ Here's the unified table of contents in markdown format:
 
 ## Part III: Data Structures
 
-- Sequence Types
-  - Strings
-  - List
-  - Tuples
-  - Dictionary
-- Access Individual Elements of a Sequence
-- Accessing Slice of a Sequence
-- Getting length of a Sequence
-- Determining if a given item is in a Sequence
-- Determining How many Instances of an Item are in a Sequence
-- Finding the first instance of a item in Sequence
-- Merging Sequences
-- Repeating Sequences
-- List Methods
-- Merging two List
-- Iterating over Sequence
-- Traditional for Loop with the range() function
-- The enumerate()
-- Choosing the Right Data Structure
-- Comprehensions (List, Dict, Set)
-- Combining Comprehensions and Conditionals
-- Diving Deeper into Iterable Methods
+- [Sequence Types](#sequence-types)
+  - [Strings](#strings)
+  - [List](#list)
+  - [Tuples](#tuples)
+  - [Dictionary](#dictionary)
+- [Access Individual Elements of a Sequence](#access-individual-elements-of-a-sequence)
+- [Accessing Slice of a Sequence](#accessing-slice-of-a-sequence)
+- [Getting length of a Sequence](#getting-length-of-a-sequence)
+- [Determining if a given item is in a Sequence](#determining-if-a-given-item-is-in-a-sequence)
+- [Determining How many Instances of an Item are in a Sequence](#determining-how-many-instances-of-an-item-are-in-a-sequence)
+- [Finding the first instance of an item in Sequence](#finding-the-first-instance-of-an-item-in-sequence)
+- [Merging Sequences](#merging-sequences)
+- [Repeating Sequences](#repeating-sequences)
+- [List Methods](#list-methods)
+- [Merging two Lists](#merging-two-lists)
+- [Iterating over Sequence](#iterating-over-sequence)
+- [Traditional for Loop with the range() function](#traditional-for-loop-with-the-range-function)
+- [The enumerate()](#the-enumerate)
+- [Choosing the Right Data Structure](#choosing-the-right-data-structure)
+- [Comprehensions (List, Dict, Set)](#comprehensions-list-dict-set)
+- [Combining Comprehensions and Conditionals](#combining-comprehensions-and-conditionals)
+- [Diving Deeper into Iterable Methods](#diving-deeper-into-iterable-methods)
 
 ## Part IV: Statements, Syntax & Flow Control
 
@@ -255,7 +252,6 @@ Here's the unified table of contents in markdown format:
 - [PEP 8 Style Guide](#pep-8-style-guide)
 - [Building and Distributing Packages](#building-and-distributing-packages)
 - [Documentation](#documentation)
-```
 
 ---
 
