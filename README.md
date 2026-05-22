@@ -179,6 +179,16 @@ Start here:
 - [Next Steps](docs/08-practical-python/23-next-steps.md)
 - [References](docs/08-practical-python/24-references.md)
 
+## References
+
+- [Python Documentation](https://docs.python.org/3/)
+- [Python Tutorial](https://docs.python.org/3/tutorial/)
+- [Python Language Reference](https://docs.python.org/3/reference/)
+- [Python Standard Library](https://docs.python.org/3/library/)
+- [Python Packaging User Guide](https://packaging.python.org/)
+- [PyPI](https://pypi.org/)
+- [PEP 8 - Style Guide for Python Code](https://peps.python.org/pep-0008/)
+
 ## License
 
 This repository is licensed under the `MIT` License.
