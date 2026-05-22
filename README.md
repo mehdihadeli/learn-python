@@ -28,6 +28,8 @@ This repository aims to stay close to the spirit of the official Python document
 
 The full learning content now lives under the [docs](docs) folder and is also used by the Docusaurus site.
 
+Interactive notebook companions can live under the [notebooks](notebooks) folder for runnable Jupyter examples that mirror the chapter layout.
+
 If you are browsing on GitHub, use the chapter links below.
 
 Start here:

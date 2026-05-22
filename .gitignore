@@ -204,6 +204,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
+.ipynb_checkpoints/
 .Python
 .python-version
 .venv/
