@@ -26,7 +26,7 @@ This repository aims to stay close to the spirit of the official Python document
 
 ## How To Use This Repository
 
-The full learning content now lives under the [docs](docs) folder and is also used by the Docusaurus site.
+The full learning content now lives under the [docs](docs) folder and is also used by the VitePress site.
 
 Interactive notebook companions can live under the [notebooks](notebooks) folder for runnable Jupyter examples that mirror the chapter layout.
 
@@ -193,4 +193,4 @@ Start here:
 
 This repository is licensed under the `MIT` License.
 
-See the [LICENSE.md](LICENSE.md) file for the full information.
+See the [LICENSE](LICENSE) file for the full information.

@@ -2,7 +2,7 @@
 
 ## Project Summary
 
-This repository is a structured Python learning guide with Docusaurus-based documentation publishing.
+This repository is a structured Python learning guide with VitePress-based documentation publishing.
 
 The repository currently uses this split:
 
@@ -36,8 +36,8 @@ When editing docs:
 ## Tooling Expectations
 
 - Node `>=20` is required by `package.json`.
-- Docusaurus uses the classic preset with docs served from `/`.
-- The repo includes a webpack plugin filter workaround in `docusaurus.config.js`; do not remove it casually.
+- VitePress serves the numbered `docs/` tree through generated rewrites so public URLs stay clean.
+- Site configuration lives in `docs/.vitepress/config.mjs`, and `docs/.vitepress/theme/index.js` currently re-exports the default VitePress theme without custom styling.
 
 ## Validation Checklist
 

@@ -6,7 +6,7 @@ This repository is a docs-first Python learning project.
 
 - The main learning content lives under `docs/`.
 - The root `README.md` is a GitHub landing page and navigation index.
-- The Docusaurus site publishes the `docs/` content as the primary learning experience.
+- The VitePress site publishes the `docs/` content as the primary learning experience.
 
 ## Content Rules
 
@@ -43,12 +43,11 @@ When adding a new section:
 - keep file names in kebab-case
 - update `README.md` links if the public table of contents changes
 
-## Docusaurus Notes
+## VitePress Notes
 
-- Site config is in `docusaurus.config.js`.
-- Sidebar generation is configured through `sidebars.js`.
-- Custom styling lives in `src/css/custom.css`.
-- Keep the `remove-webpackbar-plugin` workaround unless the underlying build issue is intentionally revisited and revalidated.
+- Site config is in `docs/.vitepress/config.mjs`.
+- Sidebar and rewrite generation are derived from the numbered `docs/` tree inside the VitePress config.
+- The VitePress theme entrypoint is `docs/.vitepress/theme/index.js` and currently uses the default theme without custom styling.
 
 ## Validation
 
@@ -56,14 +55,14 @@ Use the smallest useful validation for the change:
 
 - Markdown/content-only changes: check markdown diagnostics.
 - Docs structure or navigation changes: check markdown diagnostics and link integrity where possible.
-- Docusaurus config or site behavior changes: run `npm run build`.
+- VitePress config or site behavior changes: run `npm run build`.
 
 ## Local Commands
 
 - `npm start` to run the docs site locally
 - `npm run build` to produce the static site
 - `npm run serve` to preview the built site
-- `npm run clear` to clear Docusaurus caches
+- `npm run clear` to force-refresh the VitePress dev server
 
 ## Editing Style
 
