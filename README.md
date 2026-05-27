@@ -1,185 +1,155 @@
-# Learn Python
+# Learn Python 🐍
 
-Learn Python from the ground up with a practical, readable path inspired by course-style learning repositories, but written specifically for Python.
+Learn Python in a structured, docs-first way.
 
-This repository should help:
+This repository is built for learners who want more than a syntax cheat sheet. It follows the official Python documentation as the source of truth, but explains the ideas in a slower, more connected order with examples, practical notes, and notebook companions.
 
-- beginners who want a structured roadmap
-- developers coming from other languages
-- engineers who want a quick Python reference with clear examples
+## 📚 What This Repository Includes
 
-The goal is not to collect random notes. The goal is to build a clean learning path that is accurate, readable, and easy to expand with runnable examples later.
+- 📖 guided lessons under [docs](docs)
+- 📓 interactive notebook companions under [notebooks](notebooks)
+- 🧭 a practical learning path from Python fundamentals through data structures, functions, modules, object-oriented programming, errors, files, serialization, and practical tooling
+- 🛠️ concept-first explanations aimed at beginners, developers coming from other languages, and engineers who want a stronger mental model of how Python works
 
-This repository aims to stay close to the spirit of the official Python documentation:
+## 🗂️ Table of Contents
 
-- the Python Tutorial for informal, step-by-step learning
-- the Python Standard Library docs for built-in types and practical APIs
-- the Language Reference for exact syntax and semantics
+- [00 Introduction](docs/00-introduction.md)
+- [01 Getting Started](docs/01-getting-started/01-what-is-python.md)
+  - [01 What Is Python?](docs/01-getting-started/01-what-is-python.md)
+  - [02 Why Learn Python?](docs/01-getting-started/02-why-learn-python.md)
+  - [03 Python Alternatives](docs/01-getting-started/03-python-alternatives.md)
+  - [04 Python Versions](docs/01-getting-started/04-python-versions.md)
+  - [05 Installation and Setup](docs/01-getting-started/05-installation-and-setup.md)
+  - [06 Setting Up Python on macOS](docs/01-getting-started/06-setting-up-python-on-macos.md)
+  - [07 Installing an IDE (VS Code)](docs/01-getting-started/07-installing-an-ide-vs-code.md)
+  - [08 Your First Program](docs/01-getting-started/08-your-first-program.md)
+  - [09 How Python Runs Code](docs/01-getting-started/09-how-python-runs-code.md)
+  - [10 How To Run Python Programs](docs/01-getting-started/10-how-to-run-python-programs.md)
+- [02 Core Syntax and Types](docs/02-core-syntax-and-types/01-variables-and-naming.md)
+  - [01 Variables and Naming](docs/02-core-syntax-and-types/01-variables-and-naming.md)
+  - [02 Built-in Data Types](docs/02-core-syntax-and-types/02-built-in-data-types.md)
+  - [03 Special Behavior with Numbers](docs/02-core-syntax-and-types/03-special-behavior-with-numbers.md)
+  - [04 Comments and Docstrings](docs/02-core-syntax-and-types/04-comments-and-docstrings.md)
+  - [05 The Documentation Interlude](docs/02-core-syntax-and-types/05-the-documentation-interlude.md)
+  - [06 Type Conversion](docs/02-core-syntax-and-types/06-type-conversion.md)
+  - [07 Operators](docs/02-core-syntax-and-types/07-operators.md)
+  - [08 Strings](docs/02-core-syntax-and-types/08-strings.md)
+  - [09 Escaping Characters](docs/02-core-syntax-and-types/09-escaping-characters.md)
+  - [10 Input and Output](docs/02-core-syntax-and-types/10-input-and-output.md)
+- [03 Collections and Object Creation](docs/03-collections-and-object-creation/01-sequence-types.md)
+  - [01 Sequence Types](docs/03-collections-and-object-creation/01-sequence-types.md)
+  - [02 Lists](docs/03-collections-and-object-creation/02-lists.md)
+  - [03 Tuples](docs/03-collections-and-object-creation/03-tuples.md)
+  - [04 Sets](docs/03-collections-and-object-creation/04-sets.md)
+  - [05 Dictionaries](docs/03-collections-and-object-creation/05-dictionaries.md)
+  - [06 Creating Python Objects in Multiple Ways](docs/03-collections-and-object-creation/06-creating-python-objects-in-multiple-ways.md)
+  - [07 Indexing and Slicing](docs/03-collections-and-object-creation/07-indexing-and-slicing.md)
+  - [08 Iteration](docs/03-collections-and-object-creation/08-iteration.md)
+  - [09 Comprehensions](docs/03-collections-and-object-creation/09-comprehensions.md)
+  - [10 Common Sequence Operations](docs/03-collections-and-object-creation/10-common-sequence-operations.md)
+  - [11 Diving Deeper into Iterable Methods](docs/03-collections-and-object-creation/11-diving-deeper-into-iterable-methods.md)
+  - [12 Choosing the Right Collection](docs/03-collections-and-object-creation/12-choosing-the-right-collection.md)
+- [04 Flow Control and Functions](docs/04-flow-control-and-functions/01-introducing-python-statements.md)
+  - [01 Introducing Python Statements](docs/04-flow-control-and-functions/01-introducing-python-statements.md)
+  - [02 Assignments, Expressions, and Prints](docs/04-flow-control-and-functions/02-assignments-expressions-and-prints.md)
+  - [03 Conditionals](docs/04-flow-control-and-functions/03-conditionals.md)
+  - [04 Grouping Conditionals](docs/04-flow-control-and-functions/04-grouping-conditionals.md)
+  - [05 What About switch? (Match/Case)](docs/04-flow-control-and-functions/05-what-about-switch-matchcase.md)
+  - [06 Loops](docs/04-flow-control-and-functions/06-loops.md)
+  - [07 Functions](docs/04-flow-control-and-functions/07-functions.md)
+  - [08 Understanding return](docs/04-flow-control-and-functions/08-understanding-return.md)
+  - [09 Function Arguments](docs/04-flow-control-and-functions/09-function-arguments.md)
+  - [10 Naming Conventions for Functions](docs/04-flow-control-and-functions/10-naming-conventions-for-functions.md)
+  - [11 Scope](docs/04-flow-control-and-functions/11-scope.md)
+  - [12 Lambda, map, filter, and reduce](docs/04-flow-control-and-functions/12-lambda-map-filter-and-reduce.md)
+  - [13 Nested Functions](docs/04-flow-control-and-functions/13-nested-functions.md)
+  - [14 Generators](docs/04-flow-control-and-functions/14-generators.md)
+  - [15 Decorators](docs/04-flow-control-and-functions/15-decorators.md)
+- [05 Modules, Packages, and Environments](docs/05-modules-packages-and-environments/01-libraries.md)
+  - [01 Libraries](docs/05-modules-packages-and-environments/01-libraries.md)
+  - [02 Modules](docs/05-modules-packages-and-environments/02-modules.md)
+  - [03 Packages](docs/05-modules-packages-and-environments/03-packages.md)
+  - [04 Imports](docs/05-modules-packages-and-environments/04-imports.md)
+  - [05 Absolute vs Relative Imports](docs/05-modules-packages-and-environments/05-absolute-vs-relative-imports.md)
+  - [06 Advanced Module Topics](docs/05-modules-packages-and-environments/06-advanced-module-topics.md)
+  - [07 The **init**.py File and Package Exports](docs/05-modules-packages-and-environments/07-the-initpy-file-and-package-exports.md)
+  - [08 The **pycache** Folder and Reloading Modules](docs/05-modules-packages-and-environments/08-the-pycache-folder-and-reloading-modules.md)
+  - [09 Module Docstrings](docs/05-modules-packages-and-environments/09-module-docstrings.md)
+  - [10 Using PyPI, the Python Package Index](docs/05-modules-packages-and-environments/10-using-pypi-the-python-package-index.md)
+  - [11 Virtual Environments](docs/05-modules-packages-and-environments/11-virtual-environments.md)
+  - [12 Package Management](docs/05-modules-packages-and-environments/12-package-management.md)
+  - [13 Python Package Index (PyPI)](docs/05-modules-packages-and-environments/13-python-package-index-pypi.md)
+  - [14 Package Versioning](docs/05-modules-packages-and-environments/14-package-versioning.md)
+  - [15 uv](docs/05-modules-packages-and-environments/15-uv.md)
+  - [16 pipenv](docs/05-modules-packages-and-environments/16-pipenv.md)
+  - [17 poetry](docs/05-modules-packages-and-environments/17-poetry.md)
+  - [18 Comparison and Recommendations](docs/05-modules-packages-and-environments/18-comparison-and-recommendations.md)
+- [06 Object-Oriented Python](docs/06-object-oriented-python/01-what-is-oop.md)
+  - [01 What is OOP?](docs/06-object-oriented-python/01-what-is-oop.md)
+  - [02 Classes and Instances](docs/06-object-oriented-python/02-classes-and-instances.md)
+  - [03 Instance Attributes and Class Attributes](docs/06-object-oriented-python/03-instance-attributes-and-class-attributes.md)
+  - [04 Methods](docs/06-object-oriented-python/04-methods.md)
+  - [05 Special Methods and Operator Overloading](docs/06-object-oriented-python/05-special-methods-and-operator-overloading.md)
+  - [06 Private & Public Attributes](docs/06-object-oriented-python/06-private-and-public-attributes.md)
+  - [07 Properties](docs/06-object-oriented-python/07-properties.md)
+  - [08 Properties vs Attributes](docs/06-object-oriented-python/08-properties-vs-attributes.md)
+  - [09 Inheritance and Composition](docs/06-object-oriented-python/09-inheritance-and-composition.md)
+  - [10 super() and Method Resolution Order](docs/06-object-oriented-python/10-super-and-method-resolution-order.md)
+  - [11 Abstract Base Classes](docs/06-object-oriented-python/11-abstract-base-classes.md)
+  - [12 Designing with Classes](docs/06-object-oriented-python/12-designing-with-classes.md)
+  - [13 Encapsulation and Polymorphism](docs/06-object-oriented-python/13-encapsulation-and-polymorphism.md)
+  - [14 Advanced Class Topics](docs/06-object-oriented-python/14-advanced-class-topics.md)
+  - [15 Dataclasses](docs/06-object-oriented-python/15-dataclasses.md)
+- [07 Errors, Files, and Serialization](docs/07-errors-files-and-serialization/01-exceptions.md)
+  - [01 Exceptions](docs/07-errors-files-and-serialization/01-exceptions.md)
+  - [02 Exception Hierarchy](docs/07-errors-files-and-serialization/02-exception-hierarchy.md)
+  - [03 Exception Objects](docs/07-errors-files-and-serialization/03-exception-objects.md)
+  - [04 Raising and Handling Errors](docs/07-errors-files-and-serialization/04-raising-and-handling-errors.md)
+  - [05 Designing with Exceptions](docs/07-errors-files-and-serialization/05-designing-with-exceptions.md)
+  - [06 Assertions and Debug Logging](docs/07-errors-files-and-serialization/06-assertions-and-debug-logging.md)
+  - [07 Finding Errors with the Debugger](docs/07-errors-files-and-serialization/07-finding-errors-with-the-debugger.md)
+  - [08 Common Debugging Techniques](docs/07-errors-files-and-serialization/08-common-debugging-techniques.md)
+  - [09 Which Errors Should You Handle?](docs/07-errors-files-and-serialization/09-which-errors-should-you-handle.md)
+  - [10 Files](docs/07-errors-files-and-serialization/10-files.md)
+  - [11 JSON](docs/07-errors-files-and-serialization/11-json.md)
+  - [12 Pickle](docs/07-errors-files-and-serialization/12-pickle.md)
+  - [13 Comparing JSON and Pickle](docs/07-errors-files-and-serialization/13-comparing-json-and-pickle.md)
+- [08 Practical Python](docs/08-practical-python/01-testing.md)
+  - [01 Testing](docs/08-practical-python/01-testing.md)
+  - [02 Type Hints](docs/08-practical-python/02-type-hints.md)
+  - [03 Linting, Formatting, and PEP 8](docs/08-practical-python/03-linting-formatting-and-pep-8.md)
+  - [04 Useful Standard Library Modules](docs/08-practical-python/04-useful-standard-library-modules.md)
+  - [05 HTTP Requests and APIs Basics](docs/08-practical-python/05-http-requests-and-apis-basics.md)
+  - [06 Setting Up Flask](docs/08-practical-python/06-setting-up-flask.md)
+  - [07 Creating Routes (GET, POST)](docs/08-practical-python/07-creating-routes-get-post.md)
+  - [08 Adding a User Interface](docs/08-practical-python/08-adding-a-user-interface.md)
+  - [09 Async and Concurrency Overview](docs/08-practical-python/09-async-and-concurrency-overview.md)
+  - [10 Creating and Starting Threads](docs/08-practical-python/10-creating-and-starting-threads.md)
+  - [11 Thread Synchronization](docs/08-practical-python/11-thread-synchronization.md)
+  - [12 Process Pools](docs/08-practical-python/12-process-pools.md)
+  - [13 Tasks and Coroutines](docs/08-practical-python/13-tasks-and-coroutines.md)
+  - [14 Unicode and Byte Strings](docs/08-practical-python/14-unicode-and-byte-strings.md)
+  - [15 Decorators Deep Dive](docs/08-practical-python/15-decorators-deep-dive.md)
+  - [16 Metaclasses](docs/08-practical-python/16-metaclasses.md)
+  - [17 Iterators and Generators Deep Dive](docs/08-practical-python/17-iterators-and-generators-deep-dive.md)
+  - [18 Context Managers Deep Dive](docs/08-practical-python/18-context-managers-deep-dive.md)
+  - [19 Regular Expressions](docs/08-practical-python/19-regular-expressions.md)
+  - [20 C Extensions (ctypes)](docs/08-practical-python/20-c-extensions-ctypes.md)
+  - [21 Building and Distributing Packages](docs/08-practical-python/21-building-and-distributing-packages.md)
+  - [22 Documentation](docs/08-practical-python/22-documentation.md)
+  - [23 Next Steps](docs/08-practical-python/23-next-steps.md)
+  - [24 References](docs/08-practical-python/24-references.md)
 
-## What This Repository Should Teach
+## 📓 Notebooks
 
-- Python fundamentals in a logical order
-- correct mental models for core language features
-- multiple valid ways to create common Python objects
-- practical examples you can run and modify
-- modern Python practices, not outdated habits
+The [notebooks](notebooks) folder contains hands-on companions to the main lessons.
 
-## How To Use This Repository
+- [Notebook Companions README](notebooks/README.md)
+- [Notebook Introduction](notebooks/00-introduction.ipynb)
 
-The full learning content now lives under the [docs](docs) folder and is also used by the VitePress site.
+Use [docs](docs) for the full explanations and [notebooks](notebooks) for runnable examples and small experiments.
 
-Interactive notebook companions can live under the [notebooks](notebooks) folder for runnable Jupyter examples that mirror the chapter layout.
-
-If you are browsing on GitHub, use the chapter links below.
-
-Start here:
-
-- [Introduction](docs/00-introduction.md)
-
-## Table of Contents
-
-### Getting Started
-
-- [What Is Python?](docs/01-getting-started/01-what-is-python.md)
-- [Why Learn Python?](docs/01-getting-started/02-why-learn-python.md)
-- [Python Alternatives](docs/01-getting-started/03-python-alternatives.md)
-- [Python Versions](docs/01-getting-started/04-python-versions.md)
-- [Installation and Setup](docs/01-getting-started/05-installation-and-setup.md)
-- [Setting Up Python on macOS](docs/01-getting-started/06-setting-up-python-on-macos.md)
-- [Installing an IDE (VS Code)](docs/01-getting-started/07-installing-an-ide-vs-code.md)
-- [Your First Program](docs/01-getting-started/08-your-first-program.md)
-- [How Python Runs Code](docs/01-getting-started/09-how-python-runs-code.md)
-- [How To Run Python Programs](docs/01-getting-started/10-how-to-run-python-programs.md)
-
-### Chapter I: Core Syntax and Types
-
-- [Variables and Naming](docs/02-core-syntax-and-types/01-variables-and-naming.md)
-- [Built-in Data Types](docs/02-core-syntax-and-types/02-built-in-data-types.md)
-- [Special Behavior with Numbers](docs/02-core-syntax-and-types/03-special-behavior-with-numbers.md)
-- [Comments and Docstrings](docs/02-core-syntax-and-types/04-comments-and-docstrings.md)
-- [The Documentation Interlude](docs/02-core-syntax-and-types/05-the-documentation-interlude.md)
-- [Type Conversion](docs/02-core-syntax-and-types/06-type-conversion.md)
-- [Operators](docs/02-core-syntax-and-types/07-operators.md)
-- [Strings](docs/02-core-syntax-and-types/08-strings.md)
-- [Escaping Characters](docs/02-core-syntax-and-types/09-escaping-characters.md)
-- [Input and Output](docs/02-core-syntax-and-types/10-input-and-output.md)
-
-### Chapter II: Collections and Object Creation
-
-- [Sequence Types](docs/03-collections-and-object-creation/01-sequence-types.md)
-- [Lists](docs/03-collections-and-object-creation/02-lists.md)
-- [Tuples](docs/03-collections-and-object-creation/03-tuples.md)
-- [Sets](docs/03-collections-and-object-creation/04-sets.md)
-- [Dictionaries](docs/03-collections-and-object-creation/05-dictionaries.md)
-- [Creating Python Objects in Multiple Ways](docs/03-collections-and-object-creation/06-creating-python-objects-in-multiple-ways.md)
-- [Indexing and Slicing](docs/03-collections-and-object-creation/07-indexing-and-slicing.md)
-- [Iteration](docs/03-collections-and-object-creation/08-iteration.md)
-- [Comprehensions](docs/03-collections-and-object-creation/09-comprehensions.md)
-- [Common Sequence Operations](docs/03-collections-and-object-creation/10-common-sequence-operations.md)
-- [Diving Deeper into Iterable Methods](docs/03-collections-and-object-creation/11-diving-deeper-into-iterable-methods.md)
-- [Choosing the Right Collection](docs/03-collections-and-object-creation/12-choosing-the-right-collection.md)
-
-### Chapter III: Flow Control and Functions
-
-- [Introducing Python Statements](docs/04-flow-control-and-functions/01-introducing-python-statements.md)
-- [Assignments, Expressions, and Prints](docs/04-flow-control-and-functions/02-assignments-expressions-and-prints.md)
-- [Conditionals](docs/04-flow-control-and-functions/03-conditionals.md)
-- [Grouping Conditionals](docs/04-flow-control-and-functions/04-grouping-conditionals.md)
-- [What About switch? (Match/Case)](docs/04-flow-control-and-functions/05-what-about-switch-matchcase.md)
-- [Loops](docs/04-flow-control-and-functions/06-loops.md)
-- [Functions](docs/04-flow-control-and-functions/07-functions.md)
-- [Understanding return](docs/04-flow-control-and-functions/08-understanding-return.md)
-- [Function Arguments](docs/04-flow-control-and-functions/09-function-arguments.md)
-- [Naming Conventions for Functions](docs/04-flow-control-and-functions/10-naming-conventions-for-functions.md)
-- [Scope](docs/04-flow-control-and-functions/11-scope.md)
-- [Lambda, map, filter, and reduce](docs/04-flow-control-and-functions/12-lambda-map-filter-and-reduce.md)
-- [Nested Functions](docs/04-flow-control-and-functions/13-nested-functions.md)
-- [Generators](docs/04-flow-control-and-functions/14-generators.md)
-- [Decorators](docs/04-flow-control-and-functions/15-decorators.md)
-
-### Chapter IV: Modules, Packages, and Environments
-
-- [Libraries](docs/05-modules-packages-and-environments/01-libraries.md)
-- [Modules](docs/05-modules-packages-and-environments/02-modules.md)
-- [Packages](docs/05-modules-packages-and-environments/03-packages.md)
-- [Imports](docs/05-modules-packages-and-environments/04-imports.md)
-- [Absolute vs Relative Imports](docs/05-modules-packages-and-environments/05-absolute-vs-relative-imports.md)
-- [Advanced Module Topics](docs/05-modules-packages-and-environments/06-advanced-module-topics.md)
-- [The `__init__.py` File and Package Exports](docs/05-modules-packages-and-environments/07-the-initpy-file-and-package-exports.md)
-- [The `__pycache__` Folder and Reloading Modules](docs/05-modules-packages-and-environments/08-the-pycache-folder-and-reloading-modules.md)
-- [Module Docstrings](docs/05-modules-packages-and-environments/09-module-docstrings.md)
-- [Using PyPI, the Python Package Index](docs/05-modules-packages-and-environments/10-using-pypi-the-python-package-index.md)
-- [Virtual Environments](docs/05-modules-packages-and-environments/11-virtual-environments.md)
-- [Package Management](docs/05-modules-packages-and-environments/12-package-management.md)
-- [Python Package Index (PyPI)](docs/05-modules-packages-and-environments/13-python-package-index-pypi.md)
-- [Package Versioning](docs/05-modules-packages-and-environments/14-package-versioning.md)
-- [uv](docs/05-modules-packages-and-environments/15-uv.md)
-- [pipenv](docs/05-modules-packages-and-environments/16-pipenv.md)
-- [poetry](docs/05-modules-packages-and-environments/17-poetry.md)
-- [Comparison and Recommendations](docs/05-modules-packages-and-environments/18-comparison-and-recommendations.md)
-
-### Chapter V: Object-Oriented Python
-
-- [What is OOP?](docs/06-object-oriented-python/01-what-is-oop.md)
-- [Classes and Instances](docs/06-object-oriented-python/02-classes-and-instances.md)
-- [Instance Attributes and Class Attributes](docs/06-object-oriented-python/03-instance-attributes-and-class-attributes.md)
-- [Methods](docs/06-object-oriented-python/04-methods.md)
-- [Special Methods and Operator Overloading](docs/06-object-oriented-python/05-special-methods-and-operator-overloading.md)
-- [Private & Public Attributes](docs/06-object-oriented-python/06-private-and-public-attributes.md)
-- [Properties](docs/06-object-oriented-python/07-properties.md)
-- [Properties vs Attributes](docs/06-object-oriented-python/08-properties-vs-attributes.md)
-- [Inheritance and Composition](docs/06-object-oriented-python/09-inheritance-and-composition.md)
-- [super() and Method Resolution Order](docs/06-object-oriented-python/10-super-and-method-resolution-order.md)
-- [Abstract Base Classes](docs/06-object-oriented-python/11-abstract-base-classes.md)
-- [Designing with Classes](docs/06-object-oriented-python/12-designing-with-classes.md)
-- [Encapsulation and Polymorphism](docs/06-object-oriented-python/13-encapsulation-and-polymorphism.md)
-- [Advanced Class Topics](docs/06-object-oriented-python/14-advanced-class-topics.md)
-- [Dataclasses](docs/06-object-oriented-python/15-dataclasses.md)
-
-### Chapter VI: Errors, Files, and Serialization
-
-- [Exceptions](docs/07-errors-files-and-serialization/01-exceptions.md)
-- [Exception Hierarchy](docs/07-errors-files-and-serialization/02-exception-hierarchy.md)
-- [Exception Objects](docs/07-errors-files-and-serialization/03-exception-objects.md)
-- [Raising and Handling Errors](docs/07-errors-files-and-serialization/04-raising-and-handling-errors.md)
-- [Designing with Exceptions](docs/07-errors-files-and-serialization/05-designing-with-exceptions.md)
-- [Assertions and Debug Logging](docs/07-errors-files-and-serialization/06-assertions-and-debug-logging.md)
-- [Finding Errors with the Debugger](docs/07-errors-files-and-serialization/07-finding-errors-with-the-debugger.md)
-- [Common Debugging Techniques](docs/07-errors-files-and-serialization/08-common-debugging-techniques.md)
-- [Which Errors Should You Handle?](docs/07-errors-files-and-serialization/09-which-errors-should-you-handle.md)
-- [Files](docs/07-errors-files-and-serialization/10-files.md)
-- [JSON](docs/07-errors-files-and-serialization/11-json.md)
-- [Pickle](docs/07-errors-files-and-serialization/12-pickle.md)
-- [Comparing JSON and Pickle](docs/07-errors-files-and-serialization/13-comparing-json-and-pickle.md)
-
-### Chapter VII: Practical Python
-
-- [Testing](docs/08-practical-python/01-testing.md)
-- [Type Hints](docs/08-practical-python/02-type-hints.md)
-- [Linting, Formatting, and PEP 8](docs/08-practical-python/03-linting-formatting-and-pep-8.md)
-- [Useful Standard Library Modules](docs/08-practical-python/04-useful-standard-library-modules.md)
-- [HTTP Requests and APIs Basics](docs/08-practical-python/05-http-requests-and-apis-basics.md)
-- [Setting Up Flask](docs/08-practical-python/06-setting-up-flask.md)
-- [Creating Routes (GET, POST)](docs/08-practical-python/07-creating-routes-get-post.md)
-- [Adding a User Interface](docs/08-practical-python/08-adding-a-user-interface.md)
-- [Async and Concurrency Overview](docs/08-practical-python/09-async-and-concurrency-overview.md)
-- [Creating and Starting Threads](docs/08-practical-python/10-creating-and-starting-threads.md)
-- [Thread Synchronization](docs/08-practical-python/11-thread-synchronization.md)
-- [Process Pools](docs/08-practical-python/12-process-pools.md)
-- [Tasks and Coroutines](docs/08-practical-python/13-tasks-and-coroutines.md)
-- [Unicode and Byte Strings](docs/08-practical-python/14-unicode-and-byte-strings.md)
-- [Decorators Deep Dive](docs/08-practical-python/15-decorators-deep-dive.md)
-- [Metaclasses](docs/08-practical-python/16-metaclasses.md)
-- [Iterators and Generators Deep Dive](docs/08-practical-python/17-iterators-and-generators-deep-dive.md)
-- [Context Managers Deep Dive](docs/08-practical-python/18-context-managers-deep-dive.md)
-- [Regular Expressions](docs/08-practical-python/19-regular-expressions.md)
-- [C Extensions (ctypes)](docs/08-practical-python/20-c-extensions-ctypes.md)
-- [Building and Distributing Packages](docs/08-practical-python/21-building-and-distributing-packages.md)
-- [Documentation](docs/08-practical-python/22-documentation.md)
-- [Next Steps](docs/08-practical-python/23-next-steps.md)
-- [References](docs/08-practical-python/24-references.md)
-
-## References
+## 🔗 References
 
 - [Python Documentation](https://docs.python.org/3/)
 - [Python Tutorial](https://docs.python.org/3/tutorial/)
@@ -189,8 +159,8 @@ Start here:
 - [PyPI](https://pypi.org/)
 - [PEP 8 - Style Guide for Python Code](https://peps.python.org/pep-0008/)
 
-## License
+## 📄 License
 
 This repository is licensed under the `MIT` License.
 
-See the [LICENSE](LICENSE) file for the full information.
+See the [LICENSE](LICENSE) file for full details.
